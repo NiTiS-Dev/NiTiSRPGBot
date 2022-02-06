@@ -29,11 +29,13 @@ public class RPGBot
         commandService = new CommandService();
         commandService.AddModuleAsync<AdminModule>(null);
         commandService.AddModuleAsync<SuperUserModule>(null);
+        commandService.AddModuleAsync<FightModule>(null);
+        commandService.AddModuleAsync<BotModule>(null);
         botClient.CommandExecute += ExecuteCommand;
-
         SingletonManager.AddInstance(this);
         SingletonManager.AddInstance(saveModule);
     }
+
     public void Startup()
     {
         botClient.Startup();

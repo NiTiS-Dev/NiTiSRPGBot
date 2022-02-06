@@ -91,4 +91,13 @@ public class SuperUserModule : ModuleBase<SocketCommandContext>
             await ReplyAsync(null, false, builder.Build());
         }
     }
+    [Command("where")]
+    [Alias("whr")]
+    public async Task Where()
+    {
+        if (!Context.User.IsUserRPGAdmin()) //Admin command
+            return;
+
+        await ReplyAsync(message: SingletonManager.GetInstance<SaveModule>().DataDirectory);
+    }
 }

@@ -27,6 +27,8 @@ public class BotClient
         client.Ready += LogReady;
         client.MessageReceived += MessageReceived;
         client.InteractionCreated += InteractionCreated;
+
+        SingletonManager.AddInstance(this);
     }
     public void Startup(UserStatus userStatus = UserStatus.Online)
     {
@@ -53,11 +55,8 @@ public class BotClient
 
         var argPos = 0;
 
-        if (!userMessage.HasMentionPrefix(client.CurrentUser, ref argPos))
-        {
-            if (!userMessage.HasStringPrefix(Prefix, ref argPos))
-                return Task.CompletedTask;
-        }
+        if (!userMessage.HasStringPrefix(Prefix, ref argPos))
+            return Task.CompletedTask;
 
         var context = new SocketCommandContext(client, userMessage);
 

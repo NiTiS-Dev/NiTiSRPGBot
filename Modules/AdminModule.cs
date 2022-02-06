@@ -10,6 +10,12 @@ namespace NiTiS.RPGBot.Modules;
 
 public class AdminModule : ModuleBase<SocketCommandContext>
 {
+    [Command("name")]
+    public Task Name(IUser user)
+    {
+        ReplyAsync(user?.Username ?? "None");
+        return Task.CompletedTask;
+    }
     [Command("clear")]
     [Alias("clr","cler","clar")]
     [RequireContext(ContextType.Guild)]
@@ -36,7 +42,6 @@ public class AdminModule : ModuleBase<SocketCommandContext>
 
         EmbedBuilder builder = new EmbedBuilder();
         builder.WithTitle("Result");
-        builder.WithAuthor("RPGBot");
 
         EmbedFieldBuilder msgDeletedBuilder = new EmbedFieldBuilder();
         msgDeletedBuilder.WithName("Message Deleted");
