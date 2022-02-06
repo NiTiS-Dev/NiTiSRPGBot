@@ -12,6 +12,7 @@ while (true)
   Task.Delay(1000 * 60 * 2).Wait();
   SaveModule saveModule = SingletonManager.GetInstance<SaveModule>();
   saveModule.SaveUsers();
+  saveModule.SaveGuilds();
   Console.WriteLine("Saved!");
 }
 ```
