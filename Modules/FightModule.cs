@@ -7,25 +7,28 @@ namespace NiTiS.RPGBot.Modules;
 
 public class FightModule : ModuleBase<SocketCommandContext>
 {
-    public Dictionary<RPGUser, RPGUser> battles = new();
+    public static volatile Dictionary<RPGUser, RPGUser> battles = new();
 
     [Command("fight")]
     [Alias("f")]
     [RequireContext(ContextType.Guild)]
-    public Task Fight(SocketGuildUser user = null)
+    public async Task Fight(SocketGuildUser user = null)
     {
         SocketUser self = Context.User;
         if (user == null)
         {
-            return ReplyAsync("Fight with who??? :thinking:");
+            await ReplyAsync("Fight with who??? :thinking:");
+            return;
         }
-        if (user == self)
+        /*if (user == self)
         {
-            return ReplyAsync("Fight with yourself?");
-        }
+            await ReplyAsync("Fight with yourself?");
+            return;
+        }*/
         if (user.IsBot)
         {
-            return ReplyAsync("Fight with bot is dirty trick!");
+            await ReplyAsync("Fight with bot is dirty trick!");
+            return;
         }
 
         RPGUser enemy = user.ToRPGUser();
@@ -33,15 +36,18 @@ public class FightModule : ModuleBase<SocketCommandContext>
 
         if (battles.ContainsKey(enemy))
         {
-            return ReplyAsync("Enemy already have battle request");
+            await ReplyAsync("Enemy already have battle request");
+            return;
         }
         else
         {
-            IUserMessage msg = ReplyAsync($"{user.Mention} if you wants to fight with {self.Mention} pass `{SingletonManager.GetInstance<BotClient>()?.Prefix}accept`").GetAwaiter().GetResult();
+            IUserMessage msg = ReplyAsync($"{user.Mention} if you wants to fight with {self.Mention} pass `{SingletonManager.GetInstance<BotClient>()?.Prefix}accept` you have only 60s").GetAwaiter().GetResult();
             battles.Add(enemy, rself);
-            Task.Delay(1000 * 60).Wait();
+            Console.WriteLine(battles.Count);
+            await Task.Delay(1000 * 60);
             battles.Remove(enemy);
-            return msg.DeleteAsync();
+            await msg.DeleteAsync();
+            return;
         }
     }
     [Command("accept")]

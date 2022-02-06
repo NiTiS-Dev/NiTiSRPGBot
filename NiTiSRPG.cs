@@ -25,6 +25,7 @@ public class RPGBot
         this.CommandColor = color.Value;
         this.saveModule = new SaveModule(dataDirectory);
         saveModule.LoadItems();
+        saveModule.LoadLangs();
         this.botClient = new BotClient(saveModule.LoadToken(), "::");
         commandService = new CommandService();
         commandService.AddModuleAsync<AdminModule>(null);

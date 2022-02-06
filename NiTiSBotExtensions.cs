@@ -30,4 +30,12 @@ public static class NiTiSBotExtensions
     {
         Library.Registry(reg);
     }
+    public static string GetTranslate(this RPGGuild guild, string key)
+    {
+        return Language.GetTranslate(guild, key);
+    }
+    public static RPGGuild ToRPGGuild(this IGuild guild)
+    {
+        return SingletonManager.GetInstance<SaveModule>().LoadGuild(guild.Id);
+    }
 }

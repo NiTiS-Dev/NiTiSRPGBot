@@ -10,12 +10,6 @@ namespace NiTiS.RPGBot.Modules;
 
 public class AdminModule : ModuleBase<SocketCommandContext>
 {
-    [Command("name")]
-    public Task Name(IUser user)
-    {
-        ReplyAsync(user?.Username ?? "None");
-        return Task.CompletedTask;
-    }
     [Command("clear")]
     [Alias("clr","cler","clar")]
     [RequireContext(ContextType.Guild)]
@@ -85,6 +79,7 @@ public class AdminModule : ModuleBase<SocketCommandContext>
     public async Task GuildInfo()
     {
         IGuild guild = Context.Guild;
+        RPGGuild rguild = SingletonManager.GetInstance<SaveModule>().LoadGuild(guild.Id);
         EmbedBuilder builder = new EmbedBuilder();
         builder.WithAuthor(guild.Name, guild.IconUrl);
         builder.WithBotColor();

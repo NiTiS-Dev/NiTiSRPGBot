@@ -25,6 +25,9 @@
     <None Update="Data\token.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Data\Translate\en-us.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Users\508012163307143168.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
