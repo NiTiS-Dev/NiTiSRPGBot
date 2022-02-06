@@ -12,7 +12,9 @@ public static class Library
     public static void Registry(IRegistrable reg)
     {
         library[reg.ID] = reg;
-        Console.WriteLine("Registry: " + reg.ID);
+        //If reg is ILocalizable to show localize key
+        //Else just display id
+        Console.WriteLine($"Library: <{reg.GetType()} {reg.ID}>" + ((reg is ILocalizable localizable) ? localizable.TranslateKey : "") );
     }
     public static bool Unregistry(IRegistrable reg)
     {
@@ -23,12 +25,16 @@ public static class Library
         }
         return false;
     }
-    public static T Search<T>(string id) where T : IRegistrable
+    public static T? Search<T>(string id) where T : IRegistrable
     {
         if (library.ContainsKey(id))
         {
             return (T)library[id];
         }
         return default;
+    }
+    public static List<T> SearchAll<T>() where T : IRegistrable
+    {
+        return library.Values.OfType<T>().ToList();
     }
 }

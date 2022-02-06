@@ -13,10 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Guilds\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Update="Data\Guilds\865340901521489950.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Users\508012163307143168.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

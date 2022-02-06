@@ -1,5 +1,6 @@
 ﻿using Discord;
 using NiTiS.Core.Collections;
+using NiTiS.RPGBot.Content;
 
 namespace NiTiS.RPGBot;
 
@@ -16,5 +17,13 @@ public static class NiTiSBotExtensions
         var bot = SingletonManager.GetInstance<RPGBot>();
         builder.WithColor(bot.CommandColor);
         return builder;
+    }
+    public static RPGUser ToRPGUser(this IUser user)
+    {
+        return SingletonManager.GetInstance<SaveModule>().LoadUser(user.Id);
+    }
+    public static bool IsUserRPGAdmin(this IUser user)
+    {
+        return user.ToRPGUser().IsAdmin;
     }
 }

@@ -9,6 +9,7 @@ public class SaveModule
     public string Directory => directory;
     public string DataDirectory => Path.Combine(Directory, "Data");
     public string GuildsDirectory => Path.Combine(DataDirectory, "Guilds");
+    public string ItemsDirectory => Path.Combine(DataDirectory, "Items");
     public string UsersDirectory => Path.Combine(DataDirectory, "Users");
     public SaveModule(string directory)
     {
@@ -16,8 +17,13 @@ public class SaveModule
     }
     public string PathToUser(ulong user) => Path.Combine(UsersDirectory, user.ToString() + ".json");
     public string PathToGuild(ulong guild) => Path.Combine(GuildsDirectory, guild.ToString() + ".json");
+    public string PathToItem(string id) => Path.Combine(ItemsDirectory, id + ".json");
 
     private Dictionary<ulong, RPGUser> cachedUsers = new();
+    public void LoadItems()
+    {
+        
+    }
     public RPGUser LoadUser(ulong id)
     {
         if(cachedUsers.ContainsKey(id)) 

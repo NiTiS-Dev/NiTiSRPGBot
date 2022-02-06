@@ -4,6 +4,7 @@ using Discord;
 using System.Diagnostics;
 using NiTiS.Core.Collections;
 using NiTiS.RPGBot.Content;
+using Newtonsoft.Json;
 
 namespace NiTiS.RPGBot.Modules;
 
@@ -55,7 +56,7 @@ public class AdminModule : ModuleBase<SocketCommandContext>
         await deleteMessage.DeleteAsync();
     }
     [Command("uinfo")]
-    [Alias("user","info","about","ufo", "ui")]
+    [Alias("user","info","about","ufo", "ui", "uf")]
     [RequireContext(ContextType.Guild)]
     public async Task UserInfo()
     {
@@ -71,7 +72,7 @@ public class AdminModule : ModuleBase<SocketCommandContext>
         await ReplyAsync(null, false, builder.Build());
     }
     [Command("ginfo")]
-    [Alias("guild", "gifo", "gfo", "gf")]
+    [Alias("guild", "gifo", "gfo", "gf", "gi")]
     [RequireContext(ContextType.Guild)]
     public async Task GuildInfo()
     {
