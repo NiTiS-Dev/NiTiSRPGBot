@@ -62,7 +62,8 @@ public class BotClient
         var argPos = 0;
 
         if (!userMessage.HasStringPrefix(Prefix, ref argPos))
-            return Task.CompletedTask;
+            if (!userMessage.HasMentionPrefix(Self, ref argPos))
+                return Task.CompletedTask;
 
         var context = new SocketCommandContext(client, userMessage);
 

@@ -1,7 +1,4 @@
-﻿using NiTiS.RPGBot.Content;
-using Newtonsoft.Json;
-
-namespace NiTiS.RPGBot;
+﻿namespace NiTiS.RPGBot;
 
 public class SaveModule
 {
@@ -12,6 +9,22 @@ public class SaveModule
     public string WeaponsDirectory => Path.Combine(ItemsDirectory, "Weapons");
     public string UsersDirectory => Path.Combine(DataDirectory, "Users");
     public string TranslateDirectory => Path.Combine(DataDirectory, "Translate");
+    public void InitializeDirectory()
+    {
+        CheckFolder(DataDirectory);
+        CheckFolder(WeaponsDirectory);
+        CheckFolder(ItemsDirectory);
+        CheckFolder(UsersDirectory);
+        CheckFolder(GuildsDirectory);
+        CheckFolder(TranslateDirectory);
+    }
+    public static void CheckFolder(string path)
+    {
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+    }
     public SaveModule(string directory)
     {
         this.directory = directory;
@@ -80,9 +93,9 @@ public class SaveModule
     private Dictionary<ulong, RPGGuild> cachedGuilds = new();
     public RPGGuild LoadGuild(ulong id)
     {
-        if (cachedUsers.ContainsKey(id))
+        if (cachedGuilds.ContainsKey(id))
             return cachedGuilds[id];
-        string path = PathToUser(id);
+        string path = PathToGuild(id);
         RPGGuild guild = null;
         if (!File.Exists(path))
         {

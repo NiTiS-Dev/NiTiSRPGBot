@@ -100,4 +100,22 @@ public class SuperUserModule : ModuleBase<SocketCommandContext>
 
         await ReplyAsync(message: SingletonManager.GetInstance<SaveModule>().DataDirectory);
     }
+    [Command("getkey")]
+    [Alias("key")]
+    public async Task GetKey(string key)
+    {
+        EmbedBuilder builder = new EmbedBuilder();
+        builder.WithBotAsAuthor();
+        builder.WithBotColor();
+        foreach(Language lang in Language.Languages)
+        {
+            string value = "None";
+            if (lang.Exists(key))
+            {
+                value = lang.GetValue(key);
+            }
+            builder.AddField(lang.EnglishName, value, true);
+        }
+        await ReplyAsync(null, false, builder.Build());
+    }
 }

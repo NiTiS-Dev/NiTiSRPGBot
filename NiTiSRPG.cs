@@ -21,22 +21,31 @@ public class RPGBot
 
     public RPGBot(string dataDirectory, Color? color = null)
     {
-        color ??= Color.LightGrey;
-        this.CommandColor = color.Value;
-        this.saveModule = new SaveModule(dataDirectory);
+        CommandColor = color ??= Color.LightGrey;
+        
+        saveModule = new SaveModule(dataDirectory);
+        saveModule.InitializeDirectory();
         saveModule.LoadItems();
         saveModule.LoadLangs();
-        this.botClient = new BotClient(saveModule.LoadToken(), "::");
-        commandService = new CommandService();
-        commandService.AddModuleAsync<AdminModule>(null);
-        commandService.AddModuleAsync<SuperUserModule>(null);
-        commandService.AddModuleAsync<FightModule>(null);
-        commandService.AddModuleAsync<BotModule>(null);
+
+        botClient = new BotClient(saveModule.LoadToken(), "::");
         botClient.CommandExecute += ExecuteCommand;
+
+        commandService = new CommandService();
+        RegistryServices(commandService);
+        
         SingletonManager.AddInstance(this);
+        SingletonManager.AddInstance(commandService);
         SingletonManager.AddInstance(saveModule);
     }
-
+    public virtual void RegistryServices(CommandService service)
+    {
+        service.AddModuleAsync<AdminModule>(null);
+        service.AddModuleAsync<SuperUserModule>(null);
+        service.AddModuleAsync<FightModule>(null);
+        service.AddModuleAsync<BotModule>(null);
+        service.AddModuleAsync<HelpModule>(null);
+    }
     public void Startup()
     {
         botClient.Startup();

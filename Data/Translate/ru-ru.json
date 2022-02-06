@@ -1,0 +1,19 @@
+﻿{
+	"code": "ru-ru",
+	"name": "Русский",
+	"name_en": "Russian",
+	"values": {
+		"none": "Отсутствует",
+		"apply": "Применить",
+		"deny": "Отменить",
+		"ok": "Ок",
+		"id": "ID",
+		"admin": "Админ",
+		"json": "Json",
+		"Owner": "Владелец",
+
+		"cmd.set-lang.aviable-langs": "Доступные языки",
+		"cmd.set-lang.lang-set-to": "Язык установлен на {0}",
+		"cmd.error.not-owner": "Вы не владелец сервера!",
+	}
+}
