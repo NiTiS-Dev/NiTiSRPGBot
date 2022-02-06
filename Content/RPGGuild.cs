@@ -10,6 +10,7 @@ namespace NiTiS.RPGBot.Content;
 public class RPGGuild
 {
     [JsonProperty("id")]
+    
     public ulong Id { get; set; }
 
     public RPGGuild(ulong id)

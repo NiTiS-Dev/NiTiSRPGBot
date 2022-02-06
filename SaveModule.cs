@@ -6,10 +6,10 @@ namespace NiTiS.RPGBot;
 public class SaveModule
 {
     private readonly string directory;
-    public string Directory => directory;
-    public string DataDirectory => Path.Combine(Directory, "Data");
+    public string DataDirectory => Path.Combine(directory, "Data");
     public string GuildsDirectory => Path.Combine(DataDirectory, "Guilds");
     public string ItemsDirectory => Path.Combine(DataDirectory, "Items");
+    public string WeaponsDirectory => Path.Combine(ItemsDirectory, "Weapons");
     public string UsersDirectory => Path.Combine(DataDirectory, "Users");
     public SaveModule(string directory)
     {
@@ -18,12 +18,24 @@ public class SaveModule
     public string PathToUser(ulong user) => Path.Combine(UsersDirectory, user.ToString() + ".json");
     public string PathToGuild(ulong guild) => Path.Combine(GuildsDirectory, guild.ToString() + ".json");
     public string PathToItem(string id) => Path.Combine(ItemsDirectory, id + ".json");
-
-    private Dictionary<ulong, RPGUser> cachedUsers = new();
+    public string PathToToken => Path.Combine(DataDirectory, "token.txt");
+    #region Items
     public void LoadItems()
     {
-        
+        foreach(var path in Directory.GetFiles(ItemsDirectory))
+        {
+            string json = File.ReadAllText(path);
+            JsonConvert.DeserializeObject<Item>(json)?.Registry();
+        }
+        foreach (var path in Directory.GetFiles(WeaponsDirectory))
+        {
+            string json = File.ReadAllText(path);
+            JsonConvert.DeserializeObject<Weapon>(json)?.Registry();
+        }
     }
+    #endregion
+    #region Users
+    private Dictionary<ulong, RPGUser> cachedUsers = new();
     public RPGUser LoadUser(ulong id)
     {
         if(cachedUsers.ContainsKey(id)) 
@@ -50,8 +62,8 @@ public class SaveModule
             Write(PathToUser(user.Id), user);
         }
     }
-    public void ClearPlayersCache() => cachedUsers.Clear(); 
-
+    public void ClearPlayersCache() => cachedUsers.Clear();
+    #endregion
     public void Write(string path, object write, Formatting formatting = Formatting.Indented)
     {
         File.WriteAllText(path, JsonConvert.SerializeObject(write, formatting));
@@ -60,4 +72,5 @@ public class SaveModule
     {
         return JsonConvert.DeserializeObject<T>(File.ReadAllText(path)) ?? default;
     }
+    public string LoadToken() => File.ReadAllText(PathToToken);
 }

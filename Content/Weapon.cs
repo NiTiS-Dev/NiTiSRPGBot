@@ -9,13 +9,17 @@ namespace NiTiS.RPGBot.Content;
 
 public class Weapon : Item
 {
-    public Weapon(string id) : base(id)
+    [JsonProperty("base_damage")]
+    protected readonly int baseDamage;
+    public Weapon(string id, int damage, int sellCost = -1) : base(id, sellCost)
     {
-
+        this.baseDamage = damage;
     }
 
     [JsonProperty("type")]
     public WeaponType Type { get; set; }
+    [JsonIgnore]
+    public virtual int Damage => baseDamage;
 
 }
 public enum WeaponType : byte

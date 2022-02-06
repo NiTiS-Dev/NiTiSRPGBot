@@ -7,15 +7,18 @@ using Newtonsoft.Json;
 
 namespace NiTiS.RPGBot.Content;
 
-public class Item : GameObject
+public class Item : GameObject, ISellable
 {
     [JsonProperty("rare")]
     public Rarity Rarity { get; set; } = Rarity.Common;
+    [JsonProperty("base_sell_cost")]
+    protected readonly int startCost = 0;
     [JsonIgnore]
-    public virtual int SellCost { get; }
-    public Item(string id) : base(id)
-    {
+    public virtual int SellCost => startCost;
 
+    public Item(string id, int startCost = -1) : base(id)
+    {
+        this.startCost = startCost;
     }
 }
 

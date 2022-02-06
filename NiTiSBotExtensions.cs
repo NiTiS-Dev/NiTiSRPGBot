@@ -26,4 +26,8 @@ public static class NiTiSBotExtensions
     {
         return user.ToRPGUser().IsAdmin;
     }
+    public static void Registry(this IRegistrable reg)
+    {
+        Library.Registry(reg);
+    }
 }

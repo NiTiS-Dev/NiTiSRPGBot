@@ -69,6 +69,9 @@ public class AdminModule : ModuleBase<SocketCommandContext>
         
         builder.AddField("id", user.Id);
         builder.AddField("admin", ruser.IsAdmin);
+        //Items count
+        if(user.IsUserRPGAdmin())
+            builder.AddField("Json", JsonConvert.SerializeObject(ruser, Formatting.Indented));
         await ReplyAsync(null, false, builder.Build());
     }
     [Command("ginfo")]

@@ -19,12 +19,13 @@ public class RPGBot
     public SocketSelfUser Self => botClient.Self;
     public DiscordSocketClient Client => botClient.Client;
 
-    public RPGBot(string token, Color? color = null)
+    public RPGBot(string dataDirectory, Color? color = null)
     {
         color ??= Color.LightGrey;
         this.CommandColor = color.Value;
-        this.botClient = new BotClient(token, "::");
-        this.saveModule = new SaveModule(Directory.GetCurrentDirectory());
+        this.saveModule = new SaveModule(dataDirectory);
+        saveModule.LoadItems();
+        this.botClient = new BotClient(saveModule.LoadToken(), "::");
         commandService = new CommandService();
         commandService.AddModuleAsync<AdminModule>(null);
         commandService.AddModuleAsync<SuperUserModule>(null);
