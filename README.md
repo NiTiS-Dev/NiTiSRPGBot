@@ -1,4 +1,9 @@
-# NiTiSRPGBot
+<p align="center">
+  <img src="https://github.com/NickName73/NickName73/blob/main/Micros/nitis-rpg-logo.png?raw=true">
+  <h1 align="center">
+    Discord RPG Bot on NiTiS.Core and Discord.Net
+  </h1>
+</p>
 
 ```cs
 using Discord;
