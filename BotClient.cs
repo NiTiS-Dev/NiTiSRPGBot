@@ -22,7 +22,13 @@ public class BotClient
     {
         this.token = token;
         this.Prefix = botPrefix;
-        client = new DiscordSocketClient();
+        client = new DiscordSocketClient(new DiscordSocketConfig()
+        {
+            GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.GuildMembers,
+            LogLevel = LogSeverity.Info,
+            AlwaysDownloadUsers = true,
+
+        });
         client.Log += Log;
         client.Ready += LogReady;
         client.MessageReceived += MessageReceived;
