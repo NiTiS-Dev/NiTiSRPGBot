@@ -5,7 +5,7 @@ using Discord;
 using NiTiS.Core.Collections;
 using NiTiS.RPGBot;
 ...
-bot = new RPGBot("OTM4OTEwMTEyMDgzNDc2NTIy.YfxKLg.ud4XH2zBMzA_DueIM5QXgRBV5Hc");
+bot = new RPGBot("token");
 bot.Startup();
 while (true)
 {
