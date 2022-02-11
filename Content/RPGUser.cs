@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace NiTiS.RPGBot.Content;
+﻿namespace NiTiS.RPGBot.Content;
 
 public class RPGUser
 {
@@ -12,6 +10,8 @@ public class RPGUser
     public UInt16 Level { get; set; } = 1;
     [JsonProperty("xp")]
     public UInt32 XP { get; set; } = 0;
+    [JsonProperty("hero")]
+    public RPGHero Hero { get; set; }
 
     public RPGUser(ulong id)
     {
