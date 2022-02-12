@@ -17,13 +17,15 @@ public class RPGBot
     /// Color of Embed messages
     /// </summary>
     public Color CommandColor { get; protected set; }
+    public Color ErrorColor { get; protected set; }
     public SocketSelfUser Self => botClient.Self;
     public DiscordSocketClient Client => botClient.Client;
-    public static Version Version => new Version(0,5,0);
+    public static Version Version => new Version(0,6,1);
 
-    public RPGBot(string dataDirectory, Color? color = null)
+    public RPGBot(string dataDirectory, Color? color = null, Color? errorColor = null)
     {
         CommandColor = color ??= Color.LightGrey;
+        ErrorColor = errorColor ??= new Color(235, 104, 77);
         
         saveModule = new SaveModule(dataDirectory);
         saveModule.InitializeDirectory();
@@ -52,7 +54,6 @@ public class RPGBot
         //Utils
         service.AddModuleAsync<UserGuildInfoModule>(null);
         service.AddModuleAsync<UptimeModule>(null);
-        service.AddModuleAsync<GithubModule>(null);
         //RPG
         service.AddModuleAsync<FightModule>(null);
         service.AddModuleAsync<CreateHeroModule>(null);

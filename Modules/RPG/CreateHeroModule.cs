@@ -8,6 +8,7 @@ namespace NiTiS.RPGBot.Modules.RPG;
 public class CreateHeroModule : ModuleBase<SocketCommandContext>
 {
     [Command("create-hero")]
+    [Alias("hero-create")]
     [Summary("cmd.create-hero.description")]
     public async Task CrateHero()
     {

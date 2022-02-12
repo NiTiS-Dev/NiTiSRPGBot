@@ -6,19 +6,25 @@ using System.Diagnostics;
 
 namespace NiTiS.RPGBot.Modules.Administration;
 
-public class ClearModule : ModuleBase<SocketCommandContext>
+public class ClearModule : BasicModule
 {
     [Command("clear")]
-    [Alias("clr", "cler", "clar")]
+    [Alias("clr")]
     [RequireContext(ContextType.Guild)]
     [RequireBotPermission(ChannelPermission.ManageMessages)]
     [RequireUserPermission(ChannelPermission.ManageMessages)]
     [Summary("cmd.clear.description")]
     public async Task Clear(Int32 count = 10)
     {
+        if(count <= 0 || count > 250)
+        {
+            await ReplyError(new ArgumentOutOfRangeException(nameof(count)), null);
+            return;
+        }
         Stopwatch stopWatch = Stopwatch.StartNew();
 
         SocketGuild guild = Context.Guild;
+        RPGGuild rguild = RPGContext.RGuild;
         ISocketMessageChannel channel = Context.Channel;
         var cachedMessages = channel.GetMessagesAsync(count);
         int deletedMessages = 0;
@@ -34,23 +40,21 @@ public class ClearModule : ModuleBase<SocketCommandContext>
         stopWatch.Stop();
 
         EmbedBuilder builder = new EmbedBuilder();
-        builder.WithTitle("Result");
+        string T_result = rguild.GetTranslate("result");
+        builder.WithTitle(T_result);
 
-        EmbedFieldBuilder msgDeletedBuilder = new EmbedFieldBuilder();
-        msgDeletedBuilder.WithName("Message Deleted");
-        msgDeletedBuilder.WithValue($"{deletedMessages}/{count}");
+        string T_messagesDeleted = rguild.GetTranslate("cmd.clear.messages-deleted");
+        string T_messagesDeletedFormat = rguild.GetTranslate("cmd.clear.messages-deleted.format");
+        string T_timeElapsed = rguild.GetTranslate("cmd.clear.time-elapsed");
+        string T_timeElapsedFormat = rguild.GetTranslate("cmd.clear.time-elapsed.format");
+        builder.AddField(T_messagesDeleted, String.Format(T_messagesDeletedFormat, deletedMessages, count));
+        builder.AddField(T_timeElapsed, String.Format(T_timeElapsedFormat, stopWatch.Elapsed.Minutes, stopWatch.Elapsed.Seconds)); // {0}m {1}s
 
-        EmbedFieldBuilder timeElapsedBuilder = new EmbedFieldBuilder();
-        timeElapsedBuilder.WithName("Time Has Passed");
-        timeElapsedBuilder.WithValue($"{stopWatch.Elapsed.Minutes}m {stopWatch.Elapsed.Seconds}s");
-
-        builder.WithFields(msgDeletedBuilder, timeElapsedBuilder);
-        builder.WithColor(SingletonManager.GetInstance<RPGBot>().CommandColor);
         builder.WithBotAsAuthor();
         builder.WithBotColor();
-        IUserMessage deleteMessage = ReplyAsync(null, false, builder.Build()).GetAwaiter().GetResult();
+        IUserMessage deleteMessage = await ReplyAsync(null, false, builder.Build());
 
-        await Task.Delay(10000); //Wait 10 sec
+        await Task.Delay(1000 * 15); //Wait 15 sec
         await deleteMessage.DeleteAsync();
     }
 }

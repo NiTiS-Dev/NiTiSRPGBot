@@ -8,6 +8,8 @@ public class RPGUser : IEmbedContent
     public ulong Id { get; set; } = ulong.MinValue;
     [JsonProperty("admin")]
     public bool IsAdmin { get; set; } = false;
+    [JsonProperty("reset_shards")]
+    public uint ResetShards { get; set; } = 1;
     [JsonProperty("hero")]
     public RPGHero Hero { get; set; }
 
@@ -16,7 +18,7 @@ public class RPGUser : IEmbedContent
         this.Id = id;
     }
 
-    public void AddFields(EmbedBuilder builder)
+    public void AddFields(EmbedBuilder builder, RPGGuild rguild)
     {
         
     }

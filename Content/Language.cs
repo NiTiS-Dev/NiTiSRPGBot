@@ -66,7 +66,26 @@ public class Language
     }
     public static bool LanguageExists(string code)
     {
-        return languages.ContainsKey(code);
+        if (languages.ContainsKey(code))
+            return true;
+
+        foreach(Language lang in languages.Values)
+        {
+            if(lang.englishName.ToLower() == code) { return true; }
+            if(lang.originalName.ToLower() == code) { return true; }
+        }
+        return false;
+    }
+    public static bool TryGetValue(string code, out Language? language)
+    {
+        foreach (Language lang in languages.Values)
+        {
+            if (lang.code.ToLower() == code) { language = lang; return true; }
+            if (lang.englishName.ToLower() == code) { language = lang; return true; }
+            if (lang.originalName.ToLower() == code) { language = lang; return true; }
+        }
+        language = null;
+        return false;
     }
     public static List<Language> Languages => languages.Values.ToList();
     public static Dictionary<string, Language> Dictonary => languages;

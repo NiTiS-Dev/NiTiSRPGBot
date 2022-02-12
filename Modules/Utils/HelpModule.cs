@@ -4,31 +4,54 @@ using NiTiS.Core.Collections;
 
 namespace NiTiS.RPGBot.Modules.Utils;
 
-public class HelpModule : ModuleBase<SocketCommandContext>
+public class HelpModule : BasicModule
 {
     [Command("help")]
-    [Alias("command-list", "hlp", "commands", "command", "cmds")]
+    [Alias("h", "commands")]
     [Summary("cmd.help.description")]
-    public async Task Help(string command = null)
+    public async Task Help(string? command = null)
     {
-        CommandService service = SingletonManager.GetInstance<CommandService>();
-        EmbedBuilder builder = new EmbedBuilder();
-        builder.WithBotAsAuthor().WithBotColor();
-        foreach (var cmd in service.Commands)
+        try
         {
-            string header = cmd.Name;
-            var aliases = cmd.Aliases.Skip(1);
-            if (aliases.Count() > 0)
+            CommandService service = SingletonManager.GetInstance<CommandService>();
+            BotClient bot = SingletonManager.GetInstance<BotClient>();
+            EmbedBuilder builder = new EmbedBuilder();
+            builder.WithBotAsAuthor().WithBotColor();
+            if (command != null)
             {
-                header += " aka";
-                foreach (string alias in aliases)
+                foreach(CommandInfo cmd in service.Commands)
                 {
-                    header += ' ' + alias + ',';
+                    foreach(string alias in cmd.Aliases)
+                    {
+                        if (alias == command)
+                        {
+                            builder.WithTitle(bot.Prefix + cmd.Name);
+                            builder.WithDescription(RPGContext.GetTranslate(cmd.Summary ?? "none"));
+                            await ReplyEmbed(builder);
+                            return;
+                        }
+                    }
                 }
-                header.TrimEnd(',');
+                await ReplyError(new CommandNotFoundException(command), RPGContext.Reference);
+                return;
             }
-            builder.AddField(header, cmd.Summary ?? "None");
+            foreach (var cmd in service.Commands)
+            {
+                builder.AddField(bot.Prefix + cmd.Name, RPGContext.GetTranslate(cmd.Summary ?? "none"), true);
+            }
+            await ReplyEmbed(builder, RPGContext.Reference);
         }
-        await ReplyAsync(embed: builder.Build());
+        catch (Exception ex)
+        {
+            await ReplyError(ex.GetType().Name, ex.Message, RPGContext.Reference);
+        }
+    }
+}
+
+public sealed class CommandNotFoundException : Exception
+{
+    public CommandNotFoundException(string commandName) : base($"Command `{commandName}` not found")
+    {
+
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Discord;
 using NiTiS.Core.Collections;
-using NiTiS.RPGBot.Content;
 
 namespace NiTiS.RPGBot;
 
@@ -12,10 +11,20 @@ public static class NiTiSBotExtensions
         builder.WithAuthor(user.Username, user.GetAvatarUrl());
         return builder;
     }
+    public static EmbedBuilder WithGuildAsAuthor(this EmbedBuilder builder, IGuild guild)
+    {
+        return builder.WithAuthor(guild.Name, guild.IconUrl);
+    }
     public static EmbedBuilder WithBotColor(this EmbedBuilder builder)
     {
         var bot = SingletonManager.GetInstance<RPGBot>();
         builder.WithColor(bot.CommandColor);
+        return builder;
+    }
+    public static EmbedBuilder WithBotErrorColor(this EmbedBuilder builder)
+    {
+        var bot = SingletonManager.GetInstance<RPGBot>();
+        builder.WithColor(bot.ErrorColor);
         return builder;
     }
     public static RPGUser ToRPGUser(this IUser user)

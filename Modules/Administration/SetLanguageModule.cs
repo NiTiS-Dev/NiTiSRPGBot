@@ -4,22 +4,22 @@ using Discord.WebSocket;
 
 namespace NiTiS.RPGBot.Modules.Administration;
 
-public class SetLanguageModule : ModuleBase<SocketCommandContext>
+public class SetLanguageModule : BasicModule
 {
-    [Command("setlang")]
+    [Command("set-lang")]
     [Alias("lang")]
     [Summary("cmd.set-lang.description")]
-    public async Task SetLang(string lang = null)
+    public async Task SetLang(string? lang = null)
     {
         IGuild guild = Context.Guild;
         RPGGuild rguild = guild.ToRPGGuild();
         string T_aviableLanguages = rguild.GetTranslate("cmd.set-lang.aviable-langs");
-        string T_langSetTo = rguild.GetTranslate("cmd.set-lang.lang-set-to");
+        EmbedBuilder builder = new EmbedBuilder();
+        builder.WithGuildAsAuthor(guild);
+        builder.WithBotColor();
         if (lang == null)
         {
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithAuthor(guild.Name, guild.IconUrl);
-            builder.WithBotColor();
+            builder.WithBotAsAuthor();
             builder.WithDescription(T_aviableLanguages);
             foreach (Language lng in Language.Languages)
             {
@@ -30,38 +30,51 @@ public class SetLanguageModule : ModuleBase<SocketCommandContext>
                 }
                 builder.AddField(lng.EnglishName + " | " + lng.OriginalName, lng.Code, false);
             }
-            await ReplyAsync(embed: builder.Build());
+            await ReplyEmbed(builder);
             return;
         }
 
         SocketGuildUser owner = Context.Guild.Owner;
         SocketUser self = Context.User;
-        if (self.IsUserRPGAdmin() || self.Id == owner.Id)
+        if (self.IsUserRPGAdmin() || self.Id == owner.Id) //If you rpgAdmin or Owner
         {
             string code = lang.ToLower();
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithAuthor(guild.Name, guild.IconUrl);
-            builder.WithBotColor();
-            if (Language.LanguageExists(code))
+            if (Language.TryGetValue(code, out Language lng))
             {
-                rguild.Lang = code;
-                builder.WithDescription(String.Format(T_langSetTo, Language.GetLanguage(code).OriginalName));
+                rguild.Lang = lng.Code;
+                string T_langSetTo = rguild.GetTranslate("cmd.set-lang.lang-set-to");
+                builder.WithDescription(String.Format(T_langSetTo, Language.GetLanguage(lng.Code).OriginalName ?? "erro"));
+            }
+            else
+            {
+                await ReplyError(new LanguageNotFound(code), RPGContext.Reference);
+                return;
             }
 
 
-            await ReplyAsync(embed: builder.Build());
+            await ReplyEmbed(builder);
             return;
         }
         else
         {
-            string T_notOwner = rguild.GetTranslate("cmd.error.not-owner");
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithAuthor(guild.Name, guild.IconUrl);
-            builder.WithBotColor();
-            builder.WithDescription(T_notOwner);
-            await ReplyAsync(embed: builder.Build());
+            await ReplyError(new NotServerOwner(), RPGContext.Reference);
             return;
         }
 
     }
 }
+
+public sealed class LanguageNotFound : Exception
+{
+    public LanguageNotFound(string lang) : base($"Language `{lang}` not found")
+    {
+
+    }
+}
+public sealed class NotServerOwner : Exception
+{
+    public NotServerOwner() : base("Server Creator Needed")
+    {
+
+    }
+} 

@@ -16,7 +16,7 @@ public class XPModule : IEmbedContent
     [JsonIgnore]
     public bool IsMaximumLevel => Level >= 150;
 
-    public void AddFields(EmbedBuilder builder)
+    public void AddFields(EmbedBuilder builder, RPGGuild rguild)
     {
         builder.AddField("Level", Level + (IsMaximumLevel ? " (Max Level)" : ""));
         builder.AddField("XP", IsMaximumLevel ? "INFINITY" : $"{XP} / {RequiredXP}");
