@@ -20,16 +20,25 @@ public class Item : GameObject, ISellable
     {
         this.startCost = startCost;
     }
+    private Item(object? nul, string id) : base(id, "lost." + id) { }
+    public static Item Unknown(string id)
+    {
+        return new Item(null, id)
+        {
+            Rarity = 0,
+        };
+    }
 }
 
 public enum Rarity : byte
 {
-    Common = 0,
-    Uncommon = 1,
-    Rare = 2,
-    SuperRare = 3,
-    Epic = 4,
-    Legendary = 5,
-    Godness = 6,
+    None = 0,
+    Common = 1,
+    Uncommon = 2,
+    Rare = 3,
+    SuperRare = 4,
+    Epic = 5,
+    Legendary = 6,
+    Godness = 7,
     Admin = 255
 }

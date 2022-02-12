@@ -3,7 +3,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using NiTiS.Core.Collections;
 
-namespace NiTiS.RPGBot.Modules;
+namespace NiTiS.RPGBot.Modules.RPG;
 
 public class FightModule : ModuleBase<SocketCommandContext>
 {
@@ -12,6 +12,7 @@ public class FightModule : ModuleBase<SocketCommandContext>
     [Command("fight")]
     [Alias("f")]
     [RequireContext(ContextType.Guild)]
+    [Summary("cmd.fight.description")]
     public async Task Fight(SocketGuildUser user = null)
     {
         SocketUser self = Context.User;

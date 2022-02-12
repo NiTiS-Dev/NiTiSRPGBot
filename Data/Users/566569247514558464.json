@@ -1,4 +1,13 @@
 {
   "id": 566569247514558464,
-  "admin": true
+  "admin": true,
+  "hero": {
+    "xp_module": {
+      "level": 150,
+      "xp": 0
+    },
+    "inventory": {
+      "items": []
+    }
+  }
 }

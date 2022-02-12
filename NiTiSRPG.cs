@@ -2,9 +2,10 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NiTiS.Core.Collections;
+using NiTiS.RPGBot.Modules.RPG;
+using NiTiS.RPGBot.Modules.Administration;
+using NiTiS.RPGBot.Modules.Utils;
 using NiTiS.RPGBot.Modules;
-using Newtonsoft.Json;
-using NiTiS.Core.Additions;
 
 namespace NiTiS.RPGBot;
 public class RPGBot
@@ -18,6 +19,7 @@ public class RPGBot
     public Color CommandColor { get; protected set; }
     public SocketSelfUser Self => botClient.Self;
     public DiscordSocketClient Client => botClient.Client;
+    public static Version Version => new Version(0,5,0);
 
     public RPGBot(string dataDirectory, Color? color = null)
     {
@@ -40,11 +42,24 @@ public class RPGBot
     }
     public virtual void RegistryServices(CommandService service)
     {
-        service.AddModuleAsync<AdminModule>(null);
-        service.AddModuleAsync<SuperUserModule>(null);
-        service.AddModuleAsync<FightModule>(null);
+        //Admin commands
         service.AddModuleAsync<BotModule>(null);
         service.AddModuleAsync<HelpModule>(null);
+        service.AddModuleAsync<ClearModule>(null);
+        service.AddModuleAsync<RenameModule>(null);
+        service.AddModuleAsync<SetLanguageModule>(null);
+        service.AddModuleAsync<ApplyXPModule>(null);
+        //Utils
+        service.AddModuleAsync<UserGuildInfoModule>(null);
+        service.AddModuleAsync<UptimeModule>(null);
+        service.AddModuleAsync<GithubModule>(null);
+        //RPG
+        service.AddModuleAsync<FightModule>(null);
+        service.AddModuleAsync<CreateHeroModule>(null);
+        service.AddModuleAsync<HeroModule>(null);
+
+        //Others
+        service.AddModuleAsync<SuperUserModule>(null);
     }
     public void Startup()
     {

@@ -1,19 +1,13 @@
 ﻿using Discord;
 using Discord.Commands;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NiTiS.RPGBot.Modules;
+namespace NiTiS.RPGBot.Modules.Utils;
 
-public class BotModule : ModuleBase<SocketCommandContext>
+public class UptimeModule : ModuleBase<SocketCommandContext>
 {
-    [Command("ping")]
-    [Alias("uptime")]
+    [Command("uptime")]
+    [Summary("cmd.uptime.description")]
     public async Task Ping()
     {
         EmbedBuilder builder = new();

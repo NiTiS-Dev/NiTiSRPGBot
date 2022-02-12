@@ -33,7 +33,6 @@ public class BotClient
         client.Ready += LogReady;
         client.MessageReceived += MessageReceived;
         client.InteractionCreated += InteractionCreated;
-
         SingletonManager.AddInstance(this);
     }
     public void Startup(UserStatus userStatus = UserStatus.Online)
