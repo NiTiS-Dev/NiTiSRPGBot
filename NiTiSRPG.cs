@@ -44,16 +44,17 @@ public class RPGBot
     }
     public virtual void RegistryServices(CommandService service)
     {
-        //Admin commands
+        //Utils
         service.AddModuleAsync<BotModule>(null);
         service.AddModuleAsync<HelpModule>(null);
+        service.AddModuleAsync<UserGuildInfoModule>(null);
+        service.AddModuleAsync<UptimeModule>(null);
+        service.AddModuleAsync<CreateInviteModule>(null);
+        //Admin commands
         service.AddModuleAsync<ClearModule>(null);
         service.AddModuleAsync<RenameModule>(null);
         service.AddModuleAsync<SetLanguageModule>(null);
         service.AddModuleAsync<ApplyXPModule>(null);
-        //Utils
-        service.AddModuleAsync<UserGuildInfoModule>(null);
-        service.AddModuleAsync<UptimeModule>(null);
         //RPG
         service.AddModuleAsync<FightModule>(null);
         service.AddModuleAsync<CreateHeroModule>(null);

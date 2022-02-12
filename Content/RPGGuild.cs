@@ -1,11 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NiTiS.RPGBot.Content;
+﻿namespace NiTiS.RPGBot.Content;
 
 public class RPGGuild
 {
@@ -13,7 +6,7 @@ public class RPGGuild
     public ulong Id { get; set; }
 
     [JsonProperty("lang")]
-    public string Lang { get; set; }
+    public string Lang { get; set; } = "en-us";
 
     public RPGGuild(ulong id)
     {
