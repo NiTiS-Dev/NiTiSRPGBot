@@ -6,7 +6,7 @@ using NiTiS.Core.Collections;
 
 namespace NiTiS.RPGBot.Modules;
 
-public class SuperUserModule : ModuleBase<SocketCommandContext>
+public class SuperUserModule : BasicModule
 {
     [Command("reg-item")]
     [Alias("r-i", "ri", "reg-i")]

@@ -45,6 +45,7 @@ public abstract class BasicModule : ModuleBase<SocketCommandContext>
         public RPGUser RUser => ruser ??= context.Value.User.ToRPGUser();
         public RPGGuild RGuild => rguild ??= context.Value.Guild.ToRPGGuild();
         public string GetTranslate(string key) => RGuild.GetTranslate(key);
+        public string GetTranslate(bool key) => RGuild.GetTranslate(key ? "bool.true" : "bool.false");
         public MessageReference Reference => new(context.Value.Message.Id);
         public RPGCommandContext(ModuleBase<SocketCommandContext> module)
         {

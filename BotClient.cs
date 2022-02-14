@@ -2,12 +2,13 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NiTiS.Core.Collections;
-using NiTiS.RPGBot.Modules;
-using Newtonsoft.Json;
-using NiTiS.Core.Additions;
+using NiTiS.RPGBot.Modules.RPG;
+using NiTiS.RPGBot.Modules.Utils;
 
 namespace NiTiS.RPGBot;
-public delegate Task CommandExecute(ICommandContext context, int argPos, SocketMessage? message);
+
+public delegate Task CommandExecute(ICommandContext context, ref int argPos, SocketMessage? message);
+
 public class BotClient
 {
     private readonly DiscordSocketClient client;
@@ -16,7 +17,8 @@ public class BotClient
     public SocketSelfUser Self => client.CurrentUser;
     public DiscordSocketClient Client => client;
 
-    public event CommandExecute CommandExecute;
+    public event Func<ICommandContext, int, SocketMessage, Task> CommandExecute;
+    public event Func<SocketMessageComponent, Task> SelectMenuSelected;
 
     public BotClient(string token, string botPrefix = "::")
     {
@@ -32,9 +34,11 @@ public class BotClient
         client.Log += Log;
         client.Ready += LogReady;
         client.MessageReceived += MessageReceived;
+        client.SelectMenuExecuted += SelectMenuExecuted;
         client.InteractionCreated += InteractionCreated;
         SingletonManager.AddInstance(this);
     }
+
     public void Startup(UserStatus userStatus = UserStatus.Online)
     {
         client.LoginAsync(TokenType.Bot, token).Wait();
@@ -70,13 +74,32 @@ public class BotClient
 
         return Task.CompletedTask;
     }
-    protected async virtual Task InteractionCreated(SocketInteraction interaction)
+    protected virtual async Task InteractionCreated(SocketInteraction interaction)
     {
         if (interaction is SocketMessageComponent component)
         {
-            if (component.Data.CustomId == "unique-id")
+            if (component.Data.CustomId == "delete-hero")
+                await RebootHeroModule.ButtonDeleteClicked(component);
+            else if (component.Data.CustomId == "delete-self")
+                await RebootHeroModule.ButtonCancelClicked(component);
+            else if (component.Data.CustomId == "unique-id")
                 await interaction.RespondAsync("Thank you for clicking my button!");
             else Console.WriteLine("An ID has been received that has no handler!");
+        }
+    }
+    protected virtual async Task SelectMenuExecuted(SocketMessageComponent arg)
+    {
+        SelectMenuSelected?.Invoke(arg);
+        if(arg.Data.CustomId == "help-tab-select")
+        {
+            if (byte.TryParse(arg.Data.Values.First(), out var value))
+            {
+                await HelpModule.RewriteMenu(arg, value);
+            }
+            else
+            {
+                Console.WriteLine("Error when try parse");
+            }
         }
     }
 }

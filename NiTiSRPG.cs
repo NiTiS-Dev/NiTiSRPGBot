@@ -20,7 +20,7 @@ public class RPGBot
     public Color ErrorColor { get; protected set; }
     public SocketSelfUser Self => botClient.Self;
     public DiscordSocketClient Client => botClient.Client;
-    public static Version Version => new Version(0,6,1);
+    public static Version Version => new Version(0,7,0);
 
     public RPGBot(string dataDirectory, Color? color = null, Color? errorColor = null)
     {
@@ -59,6 +59,7 @@ public class RPGBot
         service.AddModuleAsync<FightModule>(null);
         service.AddModuleAsync<CreateHeroModule>(null);
         service.AddModuleAsync<HeroModule>(null);
+        service.AddModuleAsync<RebootHeroModule>(null);
 
         //Others
         service.AddModuleAsync<SuperUserModule>(null);

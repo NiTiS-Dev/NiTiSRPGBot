@@ -5,43 +5,41 @@ using NiTiS.Core.Collections;
 
 namespace NiTiS.RPGBot.Modules.Utils;
 
-public class UserGuildInfoModule : ModuleBase<SocketCommandContext>
+public class UserGuildInfoModule : BasicModule
 {
-    [Command("uinfo")]
-    [Alias("user", "info", "about", "ufo", "ui", "uf")]
+    [Command("user-info")]
+    [Alias("user", "info", "about", "ufo", "ui", "uf", "uinfo", "userinfo")]
     [RequireContext(ContextType.Guild)]
     [Summary("cmd.user-info.description")]
     public async Task UserInfo(SocketUser user = null)
     {
-        SaveModule saveModule = SingletonManager.GetInstance<SaveModule>();
         user ??= Context.User;
-        RPGUser ruser = saveModule.LoadUser(user.Id);
+        RPGUser ruser = RPGContext.RUser;
         EmbedBuilder builder = new EmbedBuilder();
 
         builder.WithAuthor(user.Username, user.GetAvatarUrl());
         builder.WithBotColor();
 
-        builder.AddField("id", user.Id);
-        builder.AddField("admin", ruser.IsAdmin);
-        //Items count
+        ruser.AddFields(builder, RPGContext.RGuild);
+
         if (Context.User.IsUserRPGAdmin())
-            builder.AddField("Json", JsonConvert.SerializeObject(ruser, Formatting.Indented));
+            builder.AddField(RPGContext.GetTranslate("json"), JsonConvert.SerializeObject(ruser, Formatting.Indented));
+
         await ReplyAsync(null, false, builder.Build());
     }
-    [Command("ginfo")]
-    [Alias("guild", "gifo", "gfo", "gf", "gi")]
+    [Command("guild-info")]
+    [Alias("guild", "gifo", "gfo", "gf", "gi", "ginfo", "guildinfo")]
     [RequireContext(ContextType.Guild)]
     [Summary("cmd.guild-info.description")]
     public async Task GuildInfo()
     {
         IGuild guild = Context.Guild;
-        RPGGuild rguild = SingletonManager.GetInstance<SaveModule>().LoadGuild(guild.Id);
         EmbedBuilder builder = new EmbedBuilder();
         builder.WithAuthor(guild.Name, guild.IconUrl);
         builder.WithBotColor();
-        builder.AddField("Owner", guild.GetOwnerAsync().GetAwaiter().GetResult(), false);
+        builder.AddField(RPGContext.GetTranslate("guild-owner"), await guild.GetOwnerAsync(), false);
         if (Context.User.IsUserRPGAdmin())
-            builder.AddField("Json", JsonConvert.SerializeObject(rguild, Formatting.Indented));
+            builder.AddField(RPGContext.GetTranslate("json"), JsonConvert.SerializeObject(RPGContext.RGuild, Formatting.Indented));
         await ReplyAsync(null, false, builder.Build());
     }
 }
