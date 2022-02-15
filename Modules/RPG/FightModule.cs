@@ -13,7 +13,7 @@ public class FightModule : ModuleBase<SocketCommandContext>
     [Alias("f")]
     [RequireContext(ContextType.Guild)]
     [Summary("cmd.fight.description")]
-    public async Task Fight(SocketGuildUser user = null)
+    public async Task Fight(SocketGuildUser? user = null)
     {
         SocketUser self = Context.User;
         if (user == null)

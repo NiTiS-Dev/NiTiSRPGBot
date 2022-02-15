@@ -12,15 +12,19 @@ public class HelpModule : BasicModule
     {
         "accept",
     };
-
+    private static readonly IEmote[] EMOTES = new IEmote[]
+    {
+        options, heart, wrench
+    };
+    private static readonly Emoji heart = new("💜");
+    private static readonly Emoji options = new("⚙");
+    private static readonly Emoji wrench = new("🔧");
     public static readonly HelpMenuCommandTab[] TABS = new HelpMenuCommandTab[]
     {
         new("utils", "bot", "help"),
         new("user", "user-info", "hero", "hero-create", "hero-delete"),
         new("administration", "clear", "set-lang"),
     };
-
-    private static volatile Dictionary<ulong, TabInstance> helpMenus = new();
 
     [Command("help")]
     [Alias("h", "commands")]
@@ -72,7 +76,7 @@ public class HelpModule : BasicModule
                         {
                             if (alias == command)
                             {
-                                await ReplyEmbed(new HelpMenuCommand(command).CreateEmbed(Context, RPGContext).WithBotAsAuthor().WithBotColor());
+                                await ReplyEmbed(new HelpMenuCommand(command).CreateEmbed(RPGContext).WithBotAsAuthor().WithBotColor());
                                 return;
                             }
                         }
@@ -85,47 +89,36 @@ public class HelpModule : BasicModule
             ComponentBuilder selectBuilder = new();
             SelectMenuBuilder selectMenuBuilder = new();
             selectMenuBuilder.CustomId = "help-tab-select";
-            for(int i = 0; i < TABS.Length; i++)
+            for (int i = 0; i < TABS.Length; i++)
             {
                 HelpMenuCommandTab tab = TABS[i];
-                selectMenuBuilder.AddOption(RPGContext.GetTranslate(tab.NameKey), i.ToString(), RPGContext.GetTranslate(tab.DescriptionKey), null, i == 0);
+                selectMenuBuilder.AddOption(RPGContext.GetTranslate(tab.NameKey), RPGContext.RGuild.Lang + ":" + i.ToString(), RPGContext.GetTranslate(tab.DescriptionKey), null, i == 0);
             }
             selectBuilder.WithSelectMenu(selectMenuBuilder);
-            IUserMessage msg = await ReplyAsync(embeds: TABS[0].CreateEmbeds(Context, RPGContext), components: selectBuilder.Build());
-            if(helpMenus.Count > 512)
-            {
-                helpMenus.Clear();
-            }
-            helpMenus.Add(msg.Id, new(msg, RPGContext, Context));
-           
+            IUserMessage msg = await ReplyAsync(embeds: TABS[0].CreateEmbeds(RPGContext), components: selectBuilder.Build());
         }
         catch (Exception ex)
         {
             await ReplyError(ex.GetType().Name, ex.Message, RPGContext.Reference);
         }
     }
-    public static async Task RewriteMenu(SocketMessageComponent component, byte menuID)
+    public static async Task RewriteMenu(SocketMessageComponent component, Language lang, byte menuID)
     {
-        ulong msgID = component.Message.Id;
-        if (helpMenus.ContainsKey(msgID))
+        await component.UpdateAsync((s) =>
         {
-            var helpTab = helpMenus[msgID];
-            await component.UpdateAsync((s) =>
+            ComponentBuilder selectBuilder = new();
+            SelectMenuBuilder selectMenuBuilder = new();
+            selectMenuBuilder.CustomId = "help-tab-select";
+            for (int i = 0; i < TABS.Length; i++)
             {
-                ComponentBuilder selectBuilder = new();
-                SelectMenuBuilder selectMenuBuilder = new();
-                selectMenuBuilder.CustomId = "help-tab-select";
-                for (int i = 0; i < TABS.Length; i++)
-                {
-                    HelpMenuCommandTab tab = TABS[i];
-                    selectMenuBuilder.AddOption(helpTab.RPGContext.GetTranslate(tab.NameKey), i.ToString(), helpTab.RPGContext.GetTranslate(tab.DescriptionKey), null, i == menuID);
-                }
-                selectBuilder.WithSelectMenu(selectMenuBuilder);
-                s.Embeds = TABS[menuID].CreateEmbeds(helpTab.Context, helpTab.RPGContext);
-                s.Components = selectBuilder.Build();
-            });
-            return;
-        }
+                HelpMenuCommandTab tab = TABS[i];
+                selectMenuBuilder.AddOption(lang.GetValue(tab.NameKey), lang.Code + ":" + i.ToString(), lang.GetValue(tab.DescriptionKey), null, i == menuID);
+            }
+            selectBuilder.WithSelectMenu(selectMenuBuilder);
+            s.Embeds = TABS[menuID].CreateEmbeds(lang);
+            s.Components = selectBuilder.Build();
+        });
+        return;
     }
     private sealed class TabInstance
     {

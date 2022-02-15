@@ -13,14 +13,15 @@ public class ItemInstance
     [JsonProperty("item_id")]
     public string ItemID => Item.ID;
     [JsonProperty("count")]
-    public int Count { get; set; }
+    public uint Count { get; set; }
     [JsonConstructor]
-    public ItemInstance(string itemID)
+    public ItemInstance(string item_id /*Named like in json*/)
     {
-        this.Item = Library.Search<Item>(itemID) ?? Item.Unknown(itemID);
+        this.Item = Library.Search<Item>(item_id) ?? Item.Unknown(item_id);
     }
-    public ItemInstance(Item item)
+    public ItemInstance(Item item, uint count = 1)
     {
         this.Item = item;
+        this.Count = count;
     }
 }

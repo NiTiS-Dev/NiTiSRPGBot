@@ -10,7 +10,6 @@ public class RebootHeroModule : BasicModule
 
     [Command("reboot-hero")]
     [Alias("reboot", "delete-hero", "delete", "hero-create")]
-    [Summary("cmd.reboot-hero.description")]
     public async Task RebootHero()
     {
         EmbedBuilder embedBuilder = new();
@@ -22,7 +21,7 @@ public class RebootHeroModule : BasicModule
             await ReplyEmbed(embedBuilder);
             return;
         }
-        if (!heroDelete.TryGetValue(Context.User.Id, out IUserMessage outMessage))
+        if (!heroDelete.TryGetValue(Context.User.Id, out IUserMessage? outMessage))
         {
             embedBuilder.WithBotColor();
             embedBuilder.WithTitle(RPGContext.GetTranslate("cmd.reboot-hero.delete-hero"));
@@ -51,7 +50,7 @@ public class RebootHeroModule : BasicModule
 
     public static async Task ButtonDeleteClicked(SocketInteraction interaction)
     {
-        if (heroDelete.TryGetValue(interaction.User.Id, out IUserMessage msg))
+        if (heroDelete.TryGetValue(interaction.User.Id, out IUserMessage? msg))
         {
             heroDelete.Remove(interaction.User.Id);
             await msg.DeleteAsync();
@@ -60,7 +59,7 @@ public class RebootHeroModule : BasicModule
     }
     public static async Task ButtonCancelClicked(SocketInteraction interaction)
     {
-        if (heroDelete.TryGetValue(interaction.User.Id, out IUserMessage msg))
+        if (heroDelete.TryGetValue(interaction.User.Id, out IUserMessage? msg))
         {
             heroDelete.Remove(interaction.User.Id);
             await msg.DeleteAsync();

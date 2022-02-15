@@ -11,7 +11,7 @@ public class RPGUser : IEmbedContent
     [JsonProperty("reset_shards")]
     public uint ResetShards { get; set; } = 1;
     [JsonProperty("hero")]
-    public RPGHero Hero { get; set; }
+    public RPGHero? Hero { get; set; }
 
     public RPGUser(ulong id)
     {

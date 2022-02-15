@@ -50,6 +50,7 @@ public class RPGBot
         service.AddModuleAsync<UserGuildInfoModule>(null);
         service.AddModuleAsync<UptimeModule>(null);
         service.AddModuleAsync<CreateInviteModule>(null);
+        service.AddModuleAsync<RandomModule>(null);
         //Admin commands
         service.AddModuleAsync<ClearModule>(null);
         service.AddModuleAsync<RenameModule>(null);
@@ -67,7 +68,7 @@ public class RPGBot
     public void Startup()
     {
         botClient.Startup();
-        Client.SetGameAsync(botClient.Prefix + "help");
+        Client.SetGameAsync("rpg | " + botClient.Prefix + "help");
     }
     public Task ExecuteCommand(ICommandContext context, int argPos, SocketMessage? message)
     {

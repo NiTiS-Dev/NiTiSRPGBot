@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-
-namespace NiTiS.RPGBot.Content;
+﻿namespace NiTiS.RPGBot.Content;
 
 public class Weapon : Item
 {
@@ -21,6 +14,8 @@ public class Weapon : Item
     [JsonIgnore]
     public virtual int Damage => baseDamage;
 
+    public override bool IsStackable => false;
+
 }
 public enum WeaponType : byte
 {
@@ -28,7 +23,7 @@ public enum WeaponType : byte
     Sword = 1,
     Spear = 2,
     Hammer = 3,
-    //Distance 21.40
+    //Distance 21..40
     Bow = 21,
     Crossbow = 22,
     //Mage 41..60

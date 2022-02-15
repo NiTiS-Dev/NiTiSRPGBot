@@ -29,9 +29,9 @@ public class Language
     }
     public string GetValue(string key)
     {
-        return this[key];
+        return Language.GetTranslate(code, key);
     }
-    public bool TryGetValue(string key, out string value)
+    public bool TryGetValue(string key, out string? value)
     {
         if (this.values.ContainsKey(key))
         {
@@ -44,9 +44,9 @@ public class Language
 
     //Static
     private static Dictionary<string, Language> languages = new();
-    public static Language GetLanguage(string code)
+    public static Language GetLanguage(string? code)
     {
-        return languages[code[0..5]];
+        return languages[(code ?? "en-us")[0..5]];
     }
     public static void AddLanguage(Language language)
     {
@@ -92,7 +92,7 @@ public class Language
     public static string GetTranslate(RPGGuild guild, string key) => GetTranslate(guild.Lang, key);
     public static string GetTranslate(string code, string key)
     {
-        string value = null;
+        string value = "";
         if (languages.TryGetValue(code, out var lang))
         {
             if(lang.TryGetValue(key, out value))
@@ -104,7 +104,7 @@ public class Language
         {
             return value;
         }
-        return $"<{code}>{key}";
+        return value = $"<{code}>{key}";
     }
 }
 public static class LangCodes

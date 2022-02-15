@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using NiTiS.Core.Collections;
 
 namespace NiTiS.RPGBot.Modules.RPG;
 
@@ -9,7 +8,7 @@ public class HeroModule : BasicModule
 {
     [Command("hero")]
     [Summary("cmd.hero.description")]
-    public async Task HeroInfo(SocketUser user = null)
+    public async Task HeroInfo(SocketUser? user = null)
     {
         RPGGuild rguild = Context.Guild.ToRPGGuild();
         string T_error = RPGContext.GetTranslate("cmd.error");

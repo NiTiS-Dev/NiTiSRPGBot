@@ -39,9 +39,9 @@ public class SetLanguageModule : BasicModule
         if (self.IsUserRPGAdmin() || self.Id == owner.Id) //If you rpgAdmin or Owner
         {
             string code = lang.ToLower();
-            if (Language.TryGetValue(code, out Language lng))
+            if (Language.TryGetValue(code, out var lng))
             {
-                rguild.Lang = lng.Code;
+                rguild.Lang = lng?.Code ?? "en-us";
                 string T_langSetTo = rguild.GetTranslate("cmd.set-lang.lang-set-to");
                 builder.WithDescription(String.Format(T_langSetTo, Language.GetLanguage(lng.Code).OriginalName ?? "erro"));
             }
