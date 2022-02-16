@@ -14,7 +14,7 @@ public class SetLanguageModule : BasicModule
         IGuild guild = Context.Guild;
         RPGGuild rguild = guild.ToRPGGuild();
         string T_aviableLanguages = rguild.GetTranslate("cmd.set-lang.aviable-langs");
-        EmbedBuilder builder = new EmbedBuilder();
+        EmbedBuilder builder = new();
         builder.WithGuildAsAuthor(guild);
         builder.WithBotColor();
         if (lang == null)

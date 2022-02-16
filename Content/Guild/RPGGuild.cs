@@ -1,4 +1,4 @@
-﻿namespace NiTiS.RPGBot.Content;
+﻿namespace NiTiS.RPGBot.Content.Guild;
 
 public class RPGGuild
 {

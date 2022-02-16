@@ -23,7 +23,6 @@ public class ClearModule : BasicModule
         }
         Stopwatch stopWatch = Stopwatch.StartNew();
 
-        SocketGuild guild = Context.Guild;
         RPGGuild rguild = RPGContext.RGuild;
         ISocketMessageChannel channel = Context.Channel;
         var cachedMessages = channel.GetMessagesAsync(count);
@@ -39,7 +38,7 @@ public class ClearModule : BasicModule
         }
         stopWatch.Stop();
 
-        EmbedBuilder builder = new EmbedBuilder();
+        EmbedBuilder builder = new();
         string T_result = rguild.GetTranslate("result");
         builder.WithTitle(T_result);
 

@@ -1,22 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using NiTiS.RPGBot.Content.Registry;
 
 namespace NiTiS.RPGBot.Content;
 
-public class GameObject : IRegistrable, ILocalizable
+public class GameObject : IRegistrable<string>
 {
     [JsonIgnore]
-    private readonly string id;
-    [JsonIgnore]
-    private readonly string key;
-
-    public GameObject(string id, string? key = null)
+    public string ID { get; internal set; }
+    public GameObject(string id)
     {
-        key ??= id;
-        this.id = id;
-        this.key = key;
+        this.ID = id;
     }
-    [JsonProperty("id")]
-    public string ID => id;
-    [JsonProperty("key")]
-    public string TranslateKey => key;
 }

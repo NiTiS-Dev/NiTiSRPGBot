@@ -2,13 +2,13 @@
 using NiTiS.Core.Additions;
 using NiTiS.Core.Attributes;
 
-namespace NiTiS.RPGBot.Content;
+namespace NiTiS.RPGBot.Content.Items;
 
 public class Weapon : Item
 {
     [JsonProperty("base_damage")]
     protected readonly int baseDamage;
-    public Weapon(string id, int damage, int sellCost = -1) : base(id, sellCost)
+    public Weapon(string id, int damage) : base(id)
     {
         this.baseDamage = damage;
     }

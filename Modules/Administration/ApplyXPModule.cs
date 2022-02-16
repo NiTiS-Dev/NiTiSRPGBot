@@ -11,7 +11,6 @@ public class ApplyXPModule : BasicModule
     [Summary("cmd.apply-xp.description")]
     public async Task ApplyXP(UInt64 amount = 0)
     {
-        RPGGuild rguild = RPGContext.RGuild;
         string T_error = RPGContext.GetTranslate("cmd.error");
         string T_noHero = RPGContext.GetTranslate("cmd.error.hero-doesnt-exists");
         SocketUser user = Context.User;

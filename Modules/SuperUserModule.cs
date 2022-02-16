@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
 using NiTiS.Core.Collections;
+using NiTiS.RPGBot.Content.Items;
+using NiTiS.RPGBot.Content.Registry;
 
 namespace NiTiS.RPGBot.Modules;
 
@@ -17,10 +19,7 @@ public class SuperUserModule : BasicModule
         {
             return ReplyAsync("Err: id is null or whitespace!");
         }
-        Item item = new(id)
-        {
-            Rarity = rarity
-        };
+        Item item = new(id); //TODO: ItemBuilder
         EmbedBuilder builder = new();
         builder.WithBotAsAuthor();
         builder.WithBotColor();
@@ -41,8 +40,7 @@ public class SuperUserModule : BasicModule
         {
             return ReplyAsync("Err: id is null or whitespace!");
         }
-        Weapon weapon = new(id, damage, sellCost);
-        weapon.Rarity = rarity;
+        Weapon weapon = new(id, damage);
         weapon.Type = type;
         EmbedBuilder builder = new();
         builder.WithBotAsAuthor();
@@ -131,7 +129,7 @@ public class SuperUserModule : BasicModule
                     await ReplyError(ErrorType.RegistryDoesntExists);
                     return;
                 }
-                hero.Inventory.AddItem(item, 1);
+                hero.Inventory.AddItem(item, count);
 
                 return;
             }

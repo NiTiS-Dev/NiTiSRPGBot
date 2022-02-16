@@ -1,5 +1,6 @@
 ﻿using Discord;
 using NiTiS.Core.Collections;
+using NiTiS.RPGBot.Content.Registry;
 
 namespace NiTiS.RPGBot;
 
@@ -35,7 +36,7 @@ public static class NiTiSBotExtensions
     {
         return user.ToRPGUser().IsAdmin;
     }
-    public static void Registry(this IRegistrable reg)
+    public static void Registry(this IRegistrable<string> reg)
     {
         Library.Registry(reg);
     }

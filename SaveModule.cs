@@ -39,7 +39,7 @@ public class SaveModule
         foreach (var path in Directory.GetFiles(TranslateDirectory))
         {
             string json = File.ReadAllText(path);
-            Language lang = JsonConvert.DeserializeObject<Language>(json);
+            Language? lang = JsonConvert.DeserializeObject<Language>(json);
             Language.AddLanguage(lang);
         }
     }
@@ -50,23 +50,27 @@ public class SaveModule
         foreach(var path in Directory.GetFiles(ItemsDirectory))
         {
             string json = File.ReadAllText(path);
-            JsonConvert.DeserializeObject<Item>(json)?.Registry();
+            Item? item = JsonConvert.DeserializeObject<Item>(json);
+            item.ID = Path.GetFileNameWithoutExtension(path);
+            Library.Registry(item);
         }
         foreach (var path in Directory.GetFiles(WeaponsDirectory))
         {
             string json = File.ReadAllText(path);
-            JsonConvert.DeserializeObject<Weapon>(json)?.Registry();
+            Weapon? weapon = JsonConvert.DeserializeObject<Weapon>(json);
+            weapon.ID = Path.GetFileNameWithoutExtension(path);
+            Library.Registry(weapon);
         }
     }
     #endregion
     #region Users
-    private Dictionary<ulong, RPGUser> cachedUsers = new();
+    private readonly Dictionary<ulong, RPGUser> cachedUsers = new();
     public RPGUser LoadUser(ulong id)
     {
         if(cachedUsers.ContainsKey(id)) 
             return cachedUsers[id];
         string path = PathToUser(id);
-        RPGUser user = null;
+        RPGUser user;
         if (!File.Exists(path))
         {
             user = new RPGUser(id);
@@ -90,13 +94,13 @@ public class SaveModule
     public void ClearPlayersCache() => cachedUsers.Clear();
     #endregion
     #region Guilds
-    private Dictionary<ulong, RPGGuild> cachedGuilds = new();
+    private readonly Dictionary<ulong, RPGGuild> cachedGuilds = new();
     public RPGGuild LoadGuild(ulong id)
     {
         if (cachedGuilds.ContainsKey(id))
             return cachedGuilds[id];
         string path = PathToGuild(id);
-        RPGGuild guild = null;
+        RPGGuild guild;
         if (!File.Exists(path))
         {
             guild = new RPGGuild(id);

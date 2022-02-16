@@ -27,7 +27,7 @@ public class BotModule : BasicModule
         string T_dotNetVersion = RPGContext.GetTranslate("cmd.help.dotnet-version");
         string T_github = RPGContext.GetTranslate("cmd.help.bot-github");
         string T_botAuthor = RPGContext.GetTranslate("cmd.help.bot-author");
-        EmbedBuilder builder = new EmbedBuilder();
+        EmbedBuilder builder = new();
         builder.WithBotColor().WithBotAsAuthor();
         builder.AddField(T_botID, bot.Self.Id);
         builder.AddField(T_botTags, "`NiTiS` `RPG` `SOCIAL`");

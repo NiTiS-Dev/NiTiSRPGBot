@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace NiTiS.RPGBot.Content;
+namespace NiTiS.RPGBot.Content.Items;
 
 public class Inventory : IEnumerable<IItemInstance>
 {

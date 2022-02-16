@@ -2,7 +2,5 @@
   "base_damage": 4,
   "base_sell_cost": 10,
   "type": 1,
-  "rare": 0,
-  "id": "iron-sword",
-  "key": "iron-sword"
+  "rare": 0
 }

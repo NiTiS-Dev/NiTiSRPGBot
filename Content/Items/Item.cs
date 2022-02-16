@@ -2,24 +2,17 @@
 using NiTiS.Core.Additions;
 using NiTiS.Core.Attributes;
 
-namespace NiTiS.RPGBot.Content;
+namespace NiTiS.RPGBot.Content.Items;
 
-public class Item : GameObject, ISellable, IEmbedContent 
+public class Item : GameObject, IEmbedContent 
 {
     [JsonProperty("rare")]
-    public Rarity Rarity { get; set; } = Rarity.Common;
-    [JsonProperty("base_sell_cost")]
-    protected readonly int startCost = 0;
-    [JsonIgnore]
-    public virtual int SellCost => startCost;
+    public Rarity Rarity { get; protected set; } = Rarity.Common;
     [JsonIgnore]
     public virtual bool IsStackable => true;
 
-    public Item(string id, int startCost = -1) : base("item." + id)
-    {
-        this.startCost = startCost;
-    }
-    internal Item(object? nul, string id) : base(id, "lost." + id) { }
+    public Item(string id) : base(id) { }
+    internal Item(object? _, string id) : base(id) { }
     public static Item Unknown(string id)
     {
         return new Item(null, id)
@@ -35,7 +28,7 @@ public class Item : GameObject, ISellable, IEmbedContent
         string T_rarity = rguild.GetTranslate("rarity");
         string T_rebootCoins = rguild.GetTranslate("reboot-coins");
         builder.AddField(T_id, ID);
-        builder.AddField(T_name, rguild.GetTranslate(TranslateKey));
+        builder.AddField(T_name, rguild.GetTranslate(ID + ".name"));
         builder.AddField(T_rarity, rguild.GetTranslate(Rarity.GetEnumValueName()));
         builder.AddField(T_rebootCoins, RebootCoins);
     }

@@ -1,6 +1,6 @@
 ﻿using Discord;
 
-namespace NiTiS.RPGBot.Content;
+namespace NiTiS.RPGBot.Content.User;
 
 public class RPGUser : IEmbedContent
 {

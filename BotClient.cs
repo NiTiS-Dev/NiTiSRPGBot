@@ -57,7 +57,7 @@ public class BotClient
     protected virtual Task MessageReceived(SocketMessage message)
     {
 
-        if (!(message is SocketUserMessage userMessage))
+        if (message is not SocketUserMessage userMessage)
             return Task.CompletedTask;
         if (userMessage.Source != MessageSource.User)
             return Task.CompletedTask;

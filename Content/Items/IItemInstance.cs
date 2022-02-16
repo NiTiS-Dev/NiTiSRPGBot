@@ -1,11 +1,10 @@
-﻿namespace NiTiS.RPGBot.Content;
+﻿namespace NiTiS.RPGBot.Content.Items;
 
 public interface IItemInstance
 {
     [JsonIgnore]
     public Item Item { get; }
-    [JsonIgnore]
+    [JsonProperty("id")]
     public string ItemID { get; }
-    [JsonIgnore]
     public uint Count { get; }
 }
