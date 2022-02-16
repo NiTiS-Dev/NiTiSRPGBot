@@ -1,12 +1,21 @@
 ﻿using Discord;
 using Discord.Commands;
+using NiTiS.Core.Additions;
 using NiTiS.Core.Collections;
 
 namespace NiTiS.RPGBot.Modules;
 
 public abstract class BasicModule : ModuleBase<SocketCommandContext>
 {
-    public RPGCommandContext RPGContext { get; private set; } 
+    public RPGCommandContext RPGContext { get; private set; }
+    protected async Task<IUserMessage> ReplyError(ErrorType errorType)
+    {
+        EmbedBuilder builder = new();
+        builder.WithBotAsAuthor().WithBotErrorColor();
+        builder.WithTitle(RPGContext.GetTranslate(errorType.GetEnumValueName()));
+        builder.WithDescription(RPGContext.GetTranslate(errorType.GetEnumValueDescription()));
+        return await ReplyAsync(embed: builder.Build());
+    }
     protected async Task<IUserMessage> ReplyError(string? title, string? desc, MessageReference? reference = null)
     {
         EmbedBuilder builder = new();
@@ -17,7 +26,7 @@ public abstract class BasicModule : ModuleBase<SocketCommandContext>
         builder.WithDescription(desc ?? "");
         return await ReplyAsync(embed: builder.Build(), messageReference: reference);
     }
-    public async Task<IUserMessage> ReplyError(Exception exception, MessageReference? reference = null)
+    protected async Task<IUserMessage> ReplyError(Exception exception, MessageReference? reference = null)
     {
         EmbedBuilder builder = new();
         RPGBot bot = SingletonManager.GetInstance<RPGBot>();
@@ -46,7 +55,9 @@ public abstract class BasicModule : ModuleBase<SocketCommandContext>
         public string GetTranslate(string key) => RGuild.GetTranslate(key);
         public string GetTranslate(bool key) => RGuild.GetTranslate(key ? "bool.true" : "bool.false");
         public MessageReference Reference => new(context.Value.Message.Id);
+#pragma warning disable CS8618
         public RPGCommandContext(ModuleBase<SocketCommandContext> module)
+#pragma warning restore CS8618
         {
             context = new( () =>
             {

@@ -8,13 +8,13 @@ namespace NiTiS.RPGBot.Content;
 
 public static class Library
 {
-    private static Dictionary<string, IRegistrable> library = new();
+    private static readonly Dictionary<string, IRegistrable> library = new();
     public static void Registry(IRegistrable reg)
     {
         library[reg.ID] = reg;
         //If reg is ILocalizable to show localize key
         //Else just display id
-        Console.WriteLine($"Library: <{reg.GetType()} {reg.ID}>" + ((reg is ILocalizable localizable) ? localizable.TranslateKey : "") );
+        Console.WriteLine($"Library: <{reg.GetType()} {reg.ID}>" + ((reg is ILocalizable localizable) ? localizable.TranslateKey : "UNLOCALIZABLE") );
     }
     public static bool Unregistry(IRegistrable reg)
     {

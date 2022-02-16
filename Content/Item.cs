@@ -1,8 +1,10 @@
-﻿using NiTiS.Core.Attributes;
+﻿using Discord;
+using NiTiS.Core.Additions;
+using NiTiS.Core.Attributes;
 
 namespace NiTiS.RPGBot.Content;
 
-public class Item : GameObject, ISellable
+public class Item : GameObject, ISellable, IEmbedContent 
 {
     [JsonProperty("rare")]
     public Rarity Rarity { get; set; } = Rarity.Common;
@@ -13,11 +15,11 @@ public class Item : GameObject, ISellable
     [JsonIgnore]
     public virtual bool IsStackable => true;
 
-    public Item(string id, int startCost = -1) : base(id)
+    public Item(string id, int startCost = -1) : base("item." + id)
     {
         this.startCost = startCost;
     }
-    private Item(object? nul, string id) : base(id, "lost." + id) { }
+    internal Item(object? nul, string id) : base(id, "lost." + id) { }
     public static Item Unknown(string id)
     {
         return new Item(null, id)
@@ -25,18 +27,38 @@ public class Item : GameObject, ISellable
             Rarity = 0,
         };
     }
-    public double GetRebootCoinModiferByRarity()
+
+    public virtual void AddFields(EmbedBuilder builder, RPGGuild rguild)
     {
-        switch (Rarity)
+        string T_id = rguild.GetTranslate("id");
+        string T_name = rguild.GetTranslate("item-name");
+        string T_rarity = rguild.GetTranslate("rarity");
+        string T_rebootCoins = rguild.GetTranslate("reboot-coins");
+        builder.AddField(T_id, ID);
+        builder.AddField(T_name, rguild.GetTranslate(TranslateKey));
+        builder.AddField(T_rarity, rguild.GetTranslate(Rarity.GetEnumValueName()));
+        builder.AddField(T_rebootCoins, RebootCoins);
+    }
+    [JsonIgnore]
+    public double RebootCoins
+    {
+        get
         {
-            case Rarity.Admin: return 0.0d;
-            case Rarity.Uncommon: return 0.0001d;
-            case Rarity.Rare: return 0.0005d;
-            case Rarity.SuperRare: return 0.0065d;
-            case Rarity.Epic: return 0.0735d;
-            case Rarity.Legendary: return 0.75d;
-            case Rarity.Godness: return 2.5d;
-            default: return 0.0d;
+            double func()
+            {
+                return Rarity switch
+                {
+                    Rarity.Admin => 0.0d,
+                    Rarity.Uncommon => 0.0001d,
+                    Rarity.Rare => 0.0005d,
+                    Rarity.SuperRare => 0.0065d,
+                    Rarity.Epic => 0.0735d,
+                    Rarity.Legendary => 0.75d,
+                    Rarity.Godness => 2.5d,
+                    _ => 0.0d,
+                };
+            }
+            return func() * (IsStackable ? 0.02d : 1);
         }
     }
 }

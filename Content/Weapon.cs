@@ -1,4 +1,8 @@
-﻿namespace NiTiS.RPGBot.Content;
+﻿using Discord;
+using NiTiS.Core.Additions;
+using NiTiS.Core.Attributes;
+
+namespace NiTiS.RPGBot.Content;
 
 public class Weapon : Item
 {
@@ -16,18 +20,27 @@ public class Weapon : Item
 
     public override bool IsStackable => false;
 
+    public override void AddFields(EmbedBuilder builder, RPGGuild rguild)
+    {
+        base.AddFields(builder, rguild);
+        string T_damage = rguild.GetTranslate("damage");
+        string T_weaponType = rguild.GetTranslate("weapon-type");
+        builder.AddField(T_damage, Damage);
+        builder.AddField(T_weaponType, rguild.GetTranslate(Type.GetEnumValueName()));
+    }
+
 }
 public enum WeaponType : byte
 {
     //Melle 1..20
-    Sword = 1,
-    Spear = 2,
-    Hammer = 3,
+    [EnumInfo("weapon-type.sword")] Sword = 1,
+    [EnumInfo("weapon-type.spear")] Spear = 2,
+    [EnumInfo("weapon-type.hammer")] Hammer = 3,
     //Distance 21..40
-    Bow = 21,
-    Crossbow = 22,
+    [EnumInfo("weapon-type.bow")] Bow = 21,
+    [EnumInfo("weapon-type.crossbow")] Crossbow = 22,
     //Mage 41..60
-    Book = 41,
-    Wand = 42,
+    [EnumInfo("weapon-type.book")] Book = 41,
+    [EnumInfo("weapon-type.wand")] Wand = 42,
 
 }

@@ -12,16 +12,10 @@ public class HelpModule : BasicModule
     {
         "accept",
     };
-    private static readonly IEmote[] EMOTES = new IEmote[]
-    {
-        options, heart, wrench
-    };
-    private static readonly Emoji heart = new("💜");
-    private static readonly Emoji options = new("⚙");
-    private static readonly Emoji wrench = new("🔧");
+
     public static readonly HelpMenuCommandTab[] TABS = new HelpMenuCommandTab[]
     {
-        new("utils", "bot", "help"),
+        new("utils", "bot", "help", "random"),
         new("user", "user-info", "hero", "hero-create", "hero-delete"),
         new("administration", "clear", "set-lang"),
     };
@@ -36,7 +30,7 @@ public class HelpModule : BasicModule
             {
                 CommandService service = SingletonManager.GetInstance<CommandService>();
                 BotClient bot = SingletonManager.GetInstance<BotClient>();
-                EmbedBuilder builder = new EmbedBuilder();
+                EmbedBuilder builder = new();
                 builder.WithBotAsAuthor().WithBotColor();
                 if (D_commandName != null)
                 {

@@ -15,5 +15,6 @@
 		"cmd.set-lang.aviable-langs": "Aviable Langs",
 		"cmd.set-lang.lang-set-to": "Lang set to the {0}",
 		"cmd.error.not-owner": "You are not server owner!",
+		"cmd.random.result.format" : "You got number {0}"
 	}
 }

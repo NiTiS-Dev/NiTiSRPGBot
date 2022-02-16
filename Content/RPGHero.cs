@@ -23,9 +23,9 @@ public class RPGHero : IEmbedContent
         //Every 1.000.000 coins give 1 rcoin
         amount += (uint)Math.Floor(Money / 1000000d);
         double rarityPoints = 0;
-        foreach(ItemInstance item in Inventory)
+        foreach(StackableItemInstace item in Inventory)
         {
-            rarityPoints += item.Item.GetRebootCoinModiferByRarity() * item.Count;
+            rarityPoints += item.Item.RebootCoins * item.Count;
         }
         Console.WriteLine(rarityPoints);
         amount += (uint)Math.Round(rarityPoints);

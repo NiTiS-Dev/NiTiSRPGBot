@@ -15,7 +15,7 @@ public class UserGuildInfoModule : BasicModule
     {
         user ??= Context.User;
         RPGUser ruser = RPGContext.RUser;
-        EmbedBuilder builder = new EmbedBuilder();
+        EmbedBuilder builder = new();
 
         builder.WithAuthor(user.Username, user.GetAvatarUrl());
         builder.WithBotColor();
@@ -23,7 +23,7 @@ public class UserGuildInfoModule : BasicModule
         ruser.AddFields(builder, RPGContext.RGuild);
 
         if (Context.User.IsUserRPGAdmin())
-            builder.AddField(RPGContext.GetTranslate("json"), JsonConvert.SerializeObject(ruser, Formatting.Indented));
+            builder.AddField(RPGContext.GetTranslate("json"), "```json\n" + JsonConvert.SerializeObject(ruser, Formatting.Indented) + "\n```");
 
         await ReplyAsync(null, false, builder.Build());
     }
@@ -34,12 +34,12 @@ public class UserGuildInfoModule : BasicModule
     public async Task GuildInfo()
     {
         IGuild guild = Context.Guild;
-        EmbedBuilder builder = new EmbedBuilder();
+        EmbedBuilder builder = new();
         builder.WithAuthor(guild.Name, guild.IconUrl);
         builder.WithBotColor();
         builder.AddField(RPGContext.GetTranslate("guild-owner"), await guild.GetOwnerAsync(), false);
         if (Context.User.IsUserRPGAdmin())
-            builder.AddField(RPGContext.GetTranslate("json"), JsonConvert.SerializeObject(RPGContext.RGuild, Formatting.Indented));
+            builder.AddField(RPGContext.GetTranslate("json"), "```json\n" + JsonConvert.SerializeObject(RPGContext.RGuild, Formatting.Indented) + "```\n");
         await ReplyAsync(null, false, builder.Build());
     }
 }

@@ -3,13 +3,13 @@
 public class Language
 {
     [JsonProperty("values")]
-    private Dictionary<string, string> values = new();
+    private readonly Dictionary<string, string> values = new();
     [JsonProperty("code")]
-    private string code;
+    private readonly string code;
     [JsonProperty("name_en")]
-    private string englishName = "English";
+    private readonly string englishName = "English";
     [JsonProperty("name")]
-    private string originalName = "English";
+    private readonly string originalName = "English";
 
     public string OriginalName => originalName;
     public string EnglishName => englishName;
@@ -43,7 +43,7 @@ public class Language
     }
 
     //Static
-    private static Dictionary<string, Language> languages = new();
+    private static readonly Dictionary<string, Language> languages = new();
     public static Language GetLanguage(string? code)
     {
         return languages[(code ?? "en-us")[0..5]];
@@ -53,16 +53,11 @@ public class Language
         string code = language.code[0..5];
         languages[code] = language;
         Console.WriteLine($"Registry <{code}> {language.OriginalName} : {language.EnglishName}");
-        foreach(var item in language.values)
-        {
-            Console.WriteLine(item);
-        }
     }
     public static void AddLanguage(string code, Language language)
     {
         code = code[0..5];
         languages[code] = language;
-        Console.WriteLine($"Registry {code}");
     }
     public static bool LanguageExists(string code)
     {
@@ -92,7 +87,7 @@ public class Language
     public static string GetTranslate(RPGGuild guild, string key) => GetTranslate(guild.Lang, key);
     public static string GetTranslate(string code, string key)
     {
-        string value = "";
+        string? value;
         if (languages.TryGetValue(code, out var lang))
         {
             if(lang.TryGetValue(key, out value))
@@ -104,7 +99,7 @@ public class Language
         {
             return value;
         }
-        return value = $"<{code}>{key}";
+        return $"<{code}>{key}";
     }
 }
 public static class LangCodes

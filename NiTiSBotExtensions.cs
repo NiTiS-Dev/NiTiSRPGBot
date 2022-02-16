@@ -47,9 +47,8 @@ public static class NiTiSBotExtensions
     {
         return SingletonManager.GetInstance<SaveModule>().LoadGuild(guild.Id);
     }
-    public static string GetLocalizedName(this Tuple<RPGGuild, ILocalizable> tuple) => tuple.Item2.GetLocalizedName(tuple.Item1);
-    public static string GetLocalizedName(this Tuple<RPGGuild, string> tuple) => tuple.Item1.GetTranslate(tuple.Item2);
-    public static string GetLocalizedName(this Tuple<ILocalizable, RPGGuild> tuple) => tuple.Item1.GetLocalizedName(tuple.Item2);
-    public static string GetLocalizedName(this ILocalizable item, RPGGuild guild) => guild.GetTranslate(item.TranslateKey);
-    public static string GetLocalizedName(this RPGGuild guild, ILocalizable item) => guild.GetTranslate(item.TranslateKey);
+    public static string ToCodeField(this string code, string format = "json")
+    {
+        return $"```{format}\n" + code + "\n```";
+    }
 }

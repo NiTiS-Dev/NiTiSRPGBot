@@ -1,7 +1,5 @@
-﻿using Discord.Commands;
-using Discord.WebSocket;
-using Discord;
-using System.Diagnostics;
+﻿using Discord;
+using Discord.Commands;
 using NiTiS.Core.Collections;
 
 namespace NiTiS.RPGBot.Modules;
@@ -19,9 +17,11 @@ public class SuperUserModule : BasicModule
         {
             return ReplyAsync("Err: id is null or whitespace!");
         }
-        Item item = new Item(id);
-        item.Rarity = rarity;
-        EmbedBuilder builder = new EmbedBuilder();
+        Item item = new(id)
+        {
+            Rarity = rarity
+        };
+        EmbedBuilder builder = new();
         builder.WithBotAsAuthor();
         builder.WithBotColor();
         builder.AddField("Type", nameof(Item), true);
@@ -41,10 +41,10 @@ public class SuperUserModule : BasicModule
         {
             return ReplyAsync("Err: id is null or whitespace!");
         }
-        Weapon weapon = new Weapon(id, damage, sellCost);
+        Weapon weapon = new(id, damage, sellCost);
         weapon.Rarity = rarity;
         weapon.Type = type;
-        EmbedBuilder builder = new EmbedBuilder();
+        EmbedBuilder builder = new();
         builder.WithBotAsAuthor();
         builder.WithBotColor();
         builder.AddField("Type", nameof(Weapon), true);
@@ -61,14 +61,10 @@ public class SuperUserModule : BasicModule
     {
         if (!Context.User.IsUserRPGAdmin()) //Admin command
             return;
-        foreach(Item item in Library.SearchAll<Item>())
+        foreach (Item item in Library.SearchAll<Item>())
         {
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithBotAsAuthor();
-            builder.WithBotColor();
-            builder.AddField("ID", item.ID, true);
-            builder.AddField("Rarity", item.Rarity, true);
-            builder.AddField("Sell Cost", item.SellCost, true);
+            EmbedBuilder builder = new();
+            item.AddFields(builder, RPGContext.RGuild);
             await ReplyAsync(null, false, builder.Build());
         }
     }
@@ -80,15 +76,9 @@ public class SuperUserModule : BasicModule
             return;
         foreach (Weapon weapon in Library.SearchAll<Weapon>())
         {
-            EmbedBuilder builder = new EmbedBuilder();
-            builder.WithBotAsAuthor();
-            builder.WithBotColor();
-            builder.AddField("ID", weapon.ID, true);
-            builder.AddField("Rarity", weapon.Rarity, true);
-            builder.AddField("Sell Cost", weapon.SellCost, true);
-            builder.AddField("Weapon Type", weapon.Type, true);
-            builder.AddField("Damage", weapon.Damage, true);
-            await ReplyAsync(null, false, builder.Build());
+            EmbedBuilder builder = new();
+            weapon.AddFields(builder, RPGContext.RGuild);
+            await ReplyEmbed(builder);
         }
     }
     [Command("where")]
@@ -104,10 +94,10 @@ public class SuperUserModule : BasicModule
     [Alias("key")]
     public async Task GetKey(string key)
     {
-        EmbedBuilder builder = new EmbedBuilder();
+        EmbedBuilder builder = new();
         builder.WithBotAsAuthor();
         builder.WithBotColor();
-        foreach(Language lang in Language.Languages)
+        foreach (Language lang in Language.Languages)
         {
             string value = "None";
             if (lang.Exists(key))
@@ -117,5 +107,45 @@ public class SuperUserModule : BasicModule
             builder.AddField(lang.EnglishName, value, true);
         }
         await ReplyAsync(null, false, builder.Build());
+    }
+    [Command("add-item")]
+    [Alias("a-i", "ai")]
+    public async Task AddItem(string? itemID = null, uint count = 1)
+    {
+        if (!Context.User.IsUserRPGAdmin()) //Admin command
+            return;
+        RPGUser user = RPGContext.RUser;
+        if (user.Hero is null)
+        {
+            await ReplyError(ErrorType.HeroNotCreated);
+            return;
+        }
+        else
+        {
+            RPGHero hero = user.Hero;
+            if (itemID is not null)
+            {
+                Item? item = Library.Search<Item>(itemID);
+                if (item is null)
+                {
+                    await ReplyError(ErrorType.RegistryDoesntExists);
+                    return;
+                }
+                hero.Inventory.AddItem(item, 1);
+
+                return;
+            }
+            await ReplyError(ErrorType.NoParameters);
+        }
+    }
+
+    [Command("throw")]
+    [Alias("thr", "err", "error")]
+    public async Task ThrowError(ushort id = 0)
+    {
+        if (!Context.User.IsUserRPGAdmin()) //Admin command
+            return;
+        ErrorType errorType = (ErrorType)id;
+        await ReplyError(errorType);
     }
 }
