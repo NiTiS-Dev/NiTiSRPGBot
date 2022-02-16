@@ -1,8 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using NiTiS.Core.Collections;
-using NiTiS.RPGBot.Content.Items;
-using NiTiS.RPGBot.Content.Registry;
 
 namespace NiTiS.RPGBot.Modules;
 

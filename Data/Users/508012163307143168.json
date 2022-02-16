@@ -1,5 +1,17 @@
 {
   "id": 508012163307143168,
   "admin": true,
-  
+  "reset_shards": 1,
+  "hero": {
+    "xp_module": {
+      "level": 1,
+      "xp": 0
+    },
+    "gender": 2,
+    "race": 4,
+    "inventory": {
+      "items": []
+    },
+    "money": 3600500
+  }
 }

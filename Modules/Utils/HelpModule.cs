@@ -26,7 +26,7 @@ public class HelpModule : BasicModule
     {
         try
         {
-            if(command?.ToLower()?.Replace('_', '-') == "old-menu") 
+            if (command?.ToLower()?.Replace('_', '-') == "old-menu")
             {
                 CommandService service = SingletonManager.GetInstance<CommandService>();
                 BotClient bot = SingletonManager.GetInstance<BotClient>();
@@ -59,7 +59,7 @@ public class HelpModule : BasicModule
                 await ReplyEmbed(builder, RPGContext.Reference);
                 return;
             } //Obsolete menu
-            if(command is not null)
+            if (command is not null)
             {
                 CommandService service = SingletonManager.GetInstance<CommandService>();
                 if (command != null)

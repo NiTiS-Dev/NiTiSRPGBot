@@ -2,10 +2,10 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using NiTiS.Core.Collections;
-using NiTiS.RPGBot.Modules.RPG;
-using NiTiS.RPGBot.Modules.Administration;
-using NiTiS.RPGBot.Modules.Utils;
 using NiTiS.RPGBot.Modules;
+using NiTiS.RPGBot.Modules.Administration;
+using NiTiS.RPGBot.Modules.RPG;
+using NiTiS.RPGBot.Modules.Utils;
 
 namespace NiTiS.RPGBot;
 public class RPGBot
@@ -20,13 +20,13 @@ public class RPGBot
     public Color ErrorColor { get; protected set; }
     public SocketSelfUser Self => botClient.Self;
     public DiscordSocketClient Client => botClient.Client;
-    public static Version Version => new(0,7,1);
+    public static Version Version => new(0, 8, 1);
 
     public RPGBot(string dataDirectory, Color? color = null, Color? errorColor = null)
     {
         CommandColor = color ??= Color.LightGrey;
         ErrorColor = errorColor ??= new Color(235, 104, 77);
-        
+
         saveModule = new SaveModule(dataDirectory);
         saveModule.InitializeDirectory();
         saveModule.LoadItems();
@@ -37,7 +37,7 @@ public class RPGBot
 
         commandService = new CommandService();
         RegistryServices(commandService);
-        
+
         SingletonManager.AddInstance(this);
         SingletonManager.AddInstance(commandService);
         SingletonManager.AddInstance(saveModule);

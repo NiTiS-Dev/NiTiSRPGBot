@@ -64,10 +64,10 @@ public class Language
         if (languages.ContainsKey(code))
             return true;
 
-        foreach(Language lang in languages.Values)
+        foreach (Language lang in languages.Values)
         {
-            if(lang.englishName.ToLower() == code) { return true; }
-            if(lang.originalName.ToLower() == code) { return true; }
+            if (lang.englishName.ToLower() == code) { return true; }
+            if (lang.originalName.ToLower() == code) { return true; }
         }
         return false;
     }
@@ -90,12 +90,12 @@ public class Language
         string? value;
         if (languages.TryGetValue(code, out var lang))
         {
-            if(lang.TryGetValue(key, out value))
+            if (lang.TryGetValue(key, out value))
             {
                 return value;
             }
         }
-        if(languages["en-us"].TryGetValue(key, out value))
+        if (languages["en-us"].TryGetValue(key, out value))
         {
             return value;
         }

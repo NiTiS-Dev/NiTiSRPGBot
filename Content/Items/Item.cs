@@ -1,10 +1,9 @@
 ﻿using Discord;
 using NiTiS.Core.Additions;
-using NiTiS.Core.Attributes;
 
 namespace NiTiS.RPGBot.Content.Items;
 
-public class Item : GameObject, IEmbedContent 
+public class Item : GameObject, IEmbedContent
 {
     [JsonProperty("rare")]
     public Rarity Rarity { get; protected set; } = Rarity.Common;

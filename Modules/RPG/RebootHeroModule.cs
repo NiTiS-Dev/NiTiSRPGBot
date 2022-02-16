@@ -9,7 +9,7 @@ public class RebootHeroModule : BasicModule
     private static volatile Dictionary<ulong, IUserMessage> heroDelete = new();
 
     [Command("reboot-hero")]
-    [Alias("reboot", "delete-hero", "delete", "hero-create")]
+    [Alias("reboot", "delete-hero", "delete", "hero-reboot")]
     public async Task RebootHero()
     {
         EmbedBuilder embedBuilder = new();
@@ -17,8 +17,7 @@ public class RebootHeroModule : BasicModule
         RPGUser ruser = RPGContext.RUser;
         if (ruser.Hero is null)
         {
-            embedBuilder.WithTitle(RPGContext.GetTranslate("cmd.reboot-hero.hero-doesnt-exists"));
-            await ReplyEmbed(embedBuilder);
+            await ReplyError(ErrorType.HeroNotCreated);
             return;
         }
         if (!heroDelete.TryGetValue(Context.User.Id, out IUserMessage? outMessage))
@@ -26,6 +25,7 @@ public class RebootHeroModule : BasicModule
             embedBuilder.WithBotColor();
             embedBuilder.WithTitle(RPGContext.GetTranslate("cmd.reboot-hero.delete-hero"));
             embedBuilder.WithDescription(RPGContext.GetTranslate("cmd.reboot-hero.delete-hero.description"));
+            embedBuilder.AddField(RPGContext.GetTranslate("cmd.reboot-hero.coin-amount"), RPGContext.RUser.Hero?.CalculateRebootCoins());
             ComponentBuilder builder = new();
             builder.WithButton(RPGContext.GetTranslate("cmd.reboot-hero.yes-delete"), "delete-hero", ButtonStyle.Danger);
             builder.WithButton(RPGContext.GetTranslate("cmd.reboot-hero.no-save"), "delete-self", ButtonStyle.Success);
@@ -54,6 +54,8 @@ public class RebootHeroModule : BasicModule
         {
             heroDelete.Remove(interaction.User.Id);
             await msg.DeleteAsync();
+            RPGUser ruser = interaction.User.ToRPGUser();
+            ruser.Hero = null;
             return;
         }
     }

@@ -1,6 +1,4 @@
-﻿using NiTiS.RPGBot.Content.Registry;
-
-namespace NiTiS.RPGBot.Content;
+﻿namespace NiTiS.RPGBot.Content;
 
 public class GameObject : IRegistrable<string>
 {

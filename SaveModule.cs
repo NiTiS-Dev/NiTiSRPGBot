@@ -47,7 +47,7 @@ public class SaveModule
     #region Items
     public void LoadItems()
     {
-        foreach(var path in Directory.GetFiles(ItemsDirectory))
+        foreach (var path in Directory.GetFiles(ItemsDirectory))
         {
             string json = File.ReadAllText(path);
             Item? item = JsonConvert.DeserializeObject<Item>(json);
@@ -67,26 +67,34 @@ public class SaveModule
     private readonly Dictionary<ulong, RPGUser> cachedUsers = new();
     public RPGUser LoadUser(ulong id)
     {
-        if(cachedUsers.ContainsKey(id)) 
-            return cachedUsers[id];
-        string path = PathToUser(id);
-        RPGUser user;
-        if (!File.Exists(path))
+        try
         {
-            user = new RPGUser(id);
-            Write(path, user);
-            
+            if (cachedUsers.ContainsKey(id))
+                return cachedUsers[id];
+            string path = PathToUser(id);
+            RPGUser user;
+            if (!File.Exists(path))
+            {
+                user = new RPGUser(id);
+                Write(path, user);
+
+            }
+            else
+            {
+                user = Read<RPGUser>(path);
+            }
+            cachedUsers[id] = user;
+            return user;
         }
-        else
+        catch (Exception ex)
         {
-            user = Read<RPGUser>(path);
+            Console.WriteLine(ex.Message);
+            return null;
         }
-        cachedUsers[id] = user;
-        return user;
     }
     public void SaveUsers()
     {
-        foreach(var user in cachedUsers.Values)
+        foreach (var user in cachedUsers.Values)
         {
             Write(PathToUser(user.Id), user);
         }

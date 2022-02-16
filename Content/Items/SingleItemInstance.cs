@@ -3,7 +3,7 @@
 public class SingleItemInstance : IItemInstance
 {
     [JsonIgnore]
-    public Item Item { get; private set;}
+    public Item Item { get; private set; }
     public string ItemID => Item.ID;
     [JsonIgnore]
     public uint Count => 1;

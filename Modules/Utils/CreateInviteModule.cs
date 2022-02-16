@@ -1,8 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.Rest;
-using Discord.WebSocket;
-using NiTiS.Core.Collections;
 
 namespace NiTiS.RPGBot.Modules.Utils;
 

@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using Discord;
 using Discord.WebSocket;
 
 namespace NiTiS.RPGBot.Modules.Administration;

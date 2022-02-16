@@ -12,21 +12,21 @@ public class RandomModule : BasicModule
     {
         try
         {
-            WichmannRandom rand = new( (ushort)DateTime.Now.Millisecond);
+            WichmannRandom rand = new((ushort)DateTime.Now.Millisecond);
             int out3 = 0;
-            if(num1 is null)
+            if (num1 is null)
             {
                 out3 = rand[1, 6];
             }
-            if(Int32.TryParse(num1, out var out1))
+            if (Int32.TryParse(num1, out var out1))
             {
-                if(Int32.TryParse(num2, out var out2))
+                if (Int32.TryParse(num2, out var out2))
                 {
                     out3 = rand[out1, out2];
                 }
                 else
                 {
-                    if(num2 is not null)
+                    if (num2 is not null)
                     {
                         return ReplyError(RPGContext.GetTranslate("cmd.random.invalid-agruments"), null);
                     }
@@ -45,7 +45,8 @@ public class RandomModule : BasicModule
             builder.WithBotColor();
             builder.WithTitle(String.Format(RPGContext.GetTranslate("cmd.random.result.format"), out3));
             return ReplyEmbed(builder);
-        }catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return ReplyError(ex);
         }

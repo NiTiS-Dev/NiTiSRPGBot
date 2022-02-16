@@ -1,11 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Net;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NiTiS.RPGBot.Modules.Administration;
 
@@ -15,7 +10,7 @@ public class RenameModule : BasicModule
     [RequireUserPermission(ChannelPermission.ManageRoles)]
     [RequireBotPermission(ChannelPermission.ManageRoles)]
     [Summary("cmd.rename.description")]
-    public async Task Rename(IGuildUser? target = null, [Remainder]string? newName = null)
+    public async Task Rename(IGuildUser? target = null, [Remainder] string? newName = null)
     {
         try
         {
@@ -40,9 +35,10 @@ public class RenameModule : BasicModule
             builder.WithBotColor();
             builder.AddField(T_changes, $"`{oldName}` -> `{newName}`");
             await ReplyEmbed(builder, RPGContext.Reference);
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
-            if(ex is HttpException)
+            if (ex is HttpException)
             {
                 string T_accessDenied = RPGContext.GetTranslate("access-denied");
                 string T_details = RPGContext.GetTranslate("details");

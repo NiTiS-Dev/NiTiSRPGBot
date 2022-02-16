@@ -7,15 +7,15 @@ namespace NiTiS.RPGBot.Modules.Utils;
 
 public class BotModule : BasicModule
 {
-    public static readonly Lazy<string> DotNetVersion = new( () =>
-    {
-        Assembly assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
-        var assemblyPath = assembly.Location.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
-        int netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
-        if (netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2)
-            return assemblyPath[netCoreAppIndex + 1];
-        return null;
-    });
+    public static readonly Lazy<string> DotNetVersion = new(() =>
+   {
+       Assembly assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
+       var assemblyPath = assembly.Location.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+       int netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
+       if (netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2)
+           return assemblyPath[netCoreAppIndex + 1];
+       return null;
+   });
     [Command("bot")]
     [Summary("cmd.bot.description")]
     public async Task BotInfo()

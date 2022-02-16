@@ -2,18 +2,22 @@
 
 namespace NiTiS.RPGBot.Content.Items;
 
-public class Inventory : IEnumerable<IItemInstance>
+public class Inventory
 {
     [JsonProperty("items")]
     private readonly List<IItemInstance> Items = new();
     [JsonIgnore]
     public int Count => Items.Count;
+    [JsonConstructor()]
+    public Inventory()
+    {
 
+    }
     public void AddItem(Item item, uint amount = 1)
     {
         if (item.IsStackable)
         {
-            foreach(IItemInstance instance in Items)
+            foreach (IItemInstance instance in Items)
             {
                 if (instance.ItemID != item.ID) continue;
                 if (instance is StackableItemInstace itemInstance)
@@ -36,9 +40,9 @@ public class Inventory : IEnumerable<IItemInstance>
         {
             return false;
         }
-        if(!item.IsStackable)
+        if (!item.IsStackable)
         {
-            for(int i = 0; i < requiredAmount; i++)
+            for (int i = 0; i < requiredAmount; i++)
             {
                 Items.Remove(new StackableItemInstace(item));
             }
@@ -50,7 +54,7 @@ public class Inventory : IEnumerable<IItemInstance>
     public uint GetCountOf(Item item)
     {
         uint count = 0;
-        foreach(IItemInstance itemInstance in Items)
+        foreach (IItemInstance itemInstance in Items)
         {
             if (item.ID == itemInstance.ItemID)
             {
@@ -61,6 +65,4 @@ public class Inventory : IEnumerable<IItemInstance>
     }
 
     public IEnumerator<IItemInstance> GetEnumerator() => Items.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();
 }

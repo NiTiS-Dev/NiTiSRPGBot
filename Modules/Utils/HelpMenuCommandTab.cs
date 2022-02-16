@@ -1,5 +1,4 @@
 ﻿using Discord;
-using Discord.Commands;
 using NiTiS.Core.Collections;
 
 namespace NiTiS.RPGBot.Modules.Utils;
@@ -11,10 +10,10 @@ public sealed class HelpMenuCommandTab
     public HelpMenuCommandTab(string tabName, params string[] commands)
     {
         this.tabName = tabName;
-        this.commands = commands.Select( (str, ind) =>
-        {
-            return new HelpMenuCommand(str);
-        }).ToArray();
+        this.commands = commands.Select((str, ind) =>
+       {
+           return new HelpMenuCommand(str);
+       }).ToArray();
     }
     public string Name => tabName;
     public string NameKey => CommandHelper.GetCommandTabNameKey(tabName);

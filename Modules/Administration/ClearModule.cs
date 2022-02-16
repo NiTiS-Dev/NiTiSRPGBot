@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using NiTiS.Core.Collections;
 using System.Diagnostics;
 
 namespace NiTiS.RPGBot.Modules.Administration;
@@ -16,7 +15,7 @@ public class ClearModule : BasicModule
     [Summary("cmd.clear.description")]
     public async Task Clear(Int32 count = 10)
     {
-        if(count <= 0 || count > 250)
+        if (count <= 0 || count > 250)
         {
             await ReplyError(new ArgumentOutOfRangeException(nameof(count)), null);
             return;

@@ -1,6 +1,5 @@
 ﻿using Discord;
 using NiTiS.Core.Additions;
-using NiTiS.Core.Attributes;
 
 namespace NiTiS.RPGBot.Content.Items;
 

@@ -1,6 +1,4 @@
-﻿using NiTiS.RPGBot.Content.Registry;
-
-namespace NiTiS.RPGBot.Content.Items;
+﻿namespace NiTiS.RPGBot.Content.Items;
 
 public class StackableItemInstace : IItemInstance
 {

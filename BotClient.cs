@@ -105,7 +105,7 @@ public class BotClient
                 await arg.Message.DeleteAsync();
             }
         }
-        
+
     }
     private async Task ModalSubmitted(SocketModal arg)
     {

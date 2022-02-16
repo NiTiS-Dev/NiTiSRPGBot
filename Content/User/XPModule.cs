@@ -28,12 +28,12 @@ public class XPModule : IEmbedContent
         {
 
         }
-        if(xp <= 0)
+        if (xp <= 0)
         {
             return;
         }
         ulong got = XP + xp;
-        if(RequiredXP <= got)
+        if (RequiredXP <= got)
         {
             ulong rest = got - RequiredXP;
             Level++;

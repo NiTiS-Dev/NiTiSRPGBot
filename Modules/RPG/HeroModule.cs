@@ -16,7 +16,7 @@ public class HeroModule : BasicModule
         user ??= Context.User;
         RPGUser ruser = user.ToRPGUser();
 
-        if(ruser.Hero is null)
+        if (ruser.Hero is null)
         {
             await ReplyError(T_error, T_noHero, Context.Message.Reference);
             return;

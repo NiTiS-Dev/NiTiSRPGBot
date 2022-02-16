@@ -59,10 +59,10 @@ public abstract class BasicModule : ModuleBase<SocketCommandContext>
         public RPGCommandContext(ModuleBase<SocketCommandContext> module)
 #pragma warning restore CS8618
         {
-            context = new( () =>
-            {
-                return module.Context;
-            });
+            context = new(() =>
+           {
+               return module.Context;
+           });
         }
     }
 }
