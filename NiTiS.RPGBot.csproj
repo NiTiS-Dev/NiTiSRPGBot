@@ -1,50 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	  <Version>0.5.0</Version>
-	  <ProjectGuid>E9E08991-16BE-4B24-8F91-6B0643650A0A</ProjectGuid>
-  </PropertyGroup>
+    <PropertyGroup Label="Main configuration">
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>NiTiS.Discord.RPGBot</RootNamespace>
+        <Nullable>enable</Nullable>
+        <Version>0.6.0</Version>
+        <ProjectGuid>E9E08991-16BE-4B24-8F91-6B0643650A0A</ProjectGuid>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="3.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+    <ItemGroup Label="Dependens">
+        <PackageReference Include="Colorful.Console" Version="1.2.15" />
+        <PackageReference Include="Discord.Net" Version="3.*" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+        <PackageReference Include="NiTiSCore" Version="2.0.6.6" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\NiTiSCore\NiTiS.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\NiTiSCore\Core\NiTiS.Interaction\NiTiS.Interaction.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Data\Guilds\865340901521489950.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Items\Weapons\admin-sword.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Items\Weapons\iron-sword.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\token.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Translate\de-de.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Translate\ru-ru.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Translate\!en-us.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Users\508012163307143168.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\Users\566569247514558464.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
+    <ItemGroup Label="Bot Data">
+        <None Update="Data\**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+	
 </Project>

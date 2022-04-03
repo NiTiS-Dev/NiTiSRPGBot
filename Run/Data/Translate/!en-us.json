@@ -1,0 +1,25 @@
+﻿{
+	"code": "en-us",
+	"name": "English",
+	"name_en": "English",
+	"values": {
+		"none": "None",
+		"apply": "Apply",
+		"deny": "Deny",
+		"ok": "Ok",
+		"id": "ID",
+		"admin": "Admin",
+		"json": "Json",
+		"owner": "Owner",
+
+		"cmd.set-lang.aviable-langs": "Aviable Langs",
+		"cmd.set-lang.lang-set-to": "Lang set to the {0}",
+		"cmd.error.not-owner": "You are not server owner!",
+		"cmd.random.result.format": "You got number {0}",
+
+		"season": "Season",
+		"season.dev": "Development",
+		"season.creation": "Creation",
+		"season.start-time": "Start Time"
+	}
+}
