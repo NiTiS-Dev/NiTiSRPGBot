@@ -1,10 +1,20 @@
 ﻿using Discord.Interactions;
+using NiTiS.Discord.RPGBot.Services;
 using System.Threading.Tasks;
 
 namespace NiTiS.Discord.RPGBot.Modules;
 
 public class SlashModule : InteractionModuleBase<SocketInteractionContext>
 {
+    public InteractionService Commands { get; set; }
+
+    private InteractionHandlingService handler;
+    public SlashModule(ServiceProvider provider)
+    {
+        this.handler = provider.GetRequiredService<InteractionHandlingService>()!;
+        Commands = provider.GetRequiredService<InteractionService>()!;
+    }
+
     [SlashCommand("rpginfo", "Information about rpg bot")]
     public async Task InfoAsync()
     {

@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
 using NiTiS.Discord.RPGBot.Services;
@@ -16,7 +17,14 @@ public class Bot : IDisposable
 	{
 		RuntimeDirectory = runtimeDirectory;
 		Token = token;
-		this.client = new();
+		this.client = new(new()
+		{
+			AlwaysDownloadUsers = true,
+			MessageCacheSize = 100,
+
+			GatewayIntents = GatewayIntents.All,
+			LogLevel = LogSeverity.Info
+		});
 	}
 	public void Startup()
 	{
