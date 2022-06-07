@@ -1,5 +1,4 @@
-obj/
+token
+.vs/
 bin/
-Run\Data\token.txt
-Run/Data/token.txt
-*.txt
+obj/

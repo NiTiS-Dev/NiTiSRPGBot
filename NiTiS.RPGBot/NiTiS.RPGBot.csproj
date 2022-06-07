@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NoWarn>CS0162</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Discord.Net.Interactions" Version="3.7.2" />
+		<PackageReference Include="NiTiSCore" Version="2.*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Core\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="token">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+</Project>
