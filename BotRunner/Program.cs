@@ -1,12 +1,12 @@
 ﻿using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
-using NiTiS.Interaction.Services;
 using NiTiS.RPGBot.Handler;
-using NiTiS.IO;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
+using NiTiS.Registry;
 
 namespace BotRunner;
 
@@ -23,7 +23,7 @@ public static class Runner
 
 		provider.GetRequiredService<InteractionHandler>()!.InitializeAsync().Wait();
 
-		client.LoginAsync(TokenType.Bot, new File("token").ReadText()).Wait();
+		client.LoginAsync(TokenType.Bot, System.IO.File.ReadAllText("token")).Wait();
 		client.StartAsync().Wait();
 
 		Task.Delay(Timeout.Infinite).Wait();
@@ -47,13 +47,11 @@ public static class Runner
 		interaction = new(client);
 
 		provider = new ServiceCollection()
-			.AddInstance(socketConfig)
-			.AddInstance(client)
-			.AddInstance(interaction)
-			.Build();
-
-		interactionHandler = new(provider);
-
-		(provider as ServiceProvider)!.AddService(interactionHandler);
+			.AddSingleton(socketConfig)
+			.AddSingleton(client)
+			.AddSingleton(interaction)
+			.AddSingleton<Registrator>()
+			.AddSingleton((prov) => new InteractionHandler(prov))
+			.BuildServiceProvider();
 	}
 }

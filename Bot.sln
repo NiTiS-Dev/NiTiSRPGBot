@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NiTiS.RPGBot", "NiTiS.RPGBot\NiTiS.RPGBot.csproj", "{7CAAD7E7-BE59-40F9-AA11-3A3231BC3029}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NiTiS.RPGBot", "NiTiS.RPGBot\NiTiS.RPGBot.csproj", "{7CAAD7E7-BE59-40F9-AA11-3A3231BC3029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotRunner", "BotRunner\BotRunner.csproj", "{779D3B1C-1CA1-4216-8AA4-C861426898DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotRunner", "BotRunner\BotRunner.csproj", "{779D3B1C-1CA1-4216-8AA4-C861426898DD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NiTiS.Registry", "..\DotNetLibs\NiTiS.Registry\Source\NiTiS.Registry.csproj", "{A3F03905-032A-49E0-90D6-3CF5CDF72A37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{779D3B1C-1CA1-4216-8AA4-C861426898DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{779D3B1C-1CA1-4216-8AA4-C861426898DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{779D3B1C-1CA1-4216-8AA4-C861426898DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3F03905-032A-49E0-90D6-3CF5CDF72A37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3F03905-032A-49E0-90D6-3CF5CDF72A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3F03905-032A-49E0-90D6-3CF5CDF72A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3F03905-032A-49E0-90D6-3CF5CDF72A37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

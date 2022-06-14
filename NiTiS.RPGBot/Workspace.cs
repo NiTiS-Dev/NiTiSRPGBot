@@ -9,5 +9,5 @@ internal static class Workspace
 #else
 		false;
 #endif
-	public const ulong GuildID = 917478231924428872;
+	public const ulong GuildID = 865340901521489950;
 }

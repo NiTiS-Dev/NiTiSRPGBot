@@ -8,9 +8,4 @@ public class HelpModule : InteractionModuleBase<SocketInteractionContext>
 	{
 		await RespondAsync(text: $"This voice channel has a bitrate of {(channel as IVoiceChannel)?.Bitrate ?? -1}");
 	}
-	[SlashCommand("abc", "lm")]
-	public async Task Abc()
-	{
-		await RespondAsync(text: "OMG");
-	}
 }
